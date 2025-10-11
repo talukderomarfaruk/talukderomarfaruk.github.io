@@ -1,305 +1,292 @@
-<!--
-Portfolio template for: Talukder Omar Faruk
-Instructions:
-1. Open this file (index.html) in a browser to preview.
-2. Replace placeholder text (name, bio, projects, contact email) with your own.
-3. To publish: create repo named talukderomarfaruk.github.io and add this index.html as the root file.
-
-Features:
-- Responsive, modern design
-- Hero, About, Skills, Projects, Contact, Footer
-- Smooth scrolling, project cards, contact mailto link
-- Easy to customize colors & content
--->
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Talukder Omar Faruk — Portfolio</title>
-  <meta name="description" content="Talukder Omar Faruk — Software Engineer | Designer | Researcher. Professional portfolio." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    .hero p {
-  line-height: 1.6;
-  color: #555;
-}
-.profile-pic {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  border: 3px solid #fff;
-}
-
-    :root{
-      --bg:#0f1724;
-      --card:#0b1220;
-      --muted:#94a3b8;
-      --accent:linear-gradient(135deg,#7c3aed,#06b6d4);
-      --glass: rgba(255,255,255,0.04);
-      --glass-2: rgba(255,255,255,0.02);
-      --radius: 14px;
-      --maxw:1200px;
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:radial-gradient(circle at 10% 10%, rgba(7,12,22,1), transparent 20%), var(--bg);color:#e6eef8}
-    a{color:inherit;text-decoration:none}
-    .container{max-width:var(--maxw);margin:0 auto;padding:28px}
-
-    /* NAV */
-    nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:48px;height:48px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;color:white}
-    .nav-links{display:flex;gap:18px;align-items:center}
-    .btn{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:8px 12px;border-radius:10px;font-weight:600}
-
-    header.hero{padding:40px 0;display:grid;grid-template-columns:1fr 420px;gap:32px;align-items:center}
-    .intro h1{font-size:clamp(26px,5vw,44px);margin:0 0 12px}
-    .intro p{color:var(--muted);line-height:1.6;margin:0 0 18px}
-    .cta{display:flex;gap:12px}
-    .primary{background:var(--accent);padding:10px 16px;border-radius:10px;color:white;font-weight:700}
-    .secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:var(--muted)}
-
-    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:var(--radius);padding:18px;border:1px solid rgba(255,255,255,0.03)}
-
-    /* profile */
-    .profile{display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center}
-    .profile .image{width:160px;height:160px;border-radius:20px;background:linear-gradient(180deg,#0ea5b7,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:white}
-    .profile small{color:var(--muted)}
-
-    /* sections */
-    section{margin-top:36px}
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .skills{display:flex;gap:12px;flex-wrap:wrap}
-    .skill{background:var(--glass);padding:8px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
-
-    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-    .project{overflow:hidden;border-radius:12px;background:var(--card);padding:16px;border:1px solid rgba(255,255,255,0.03)}
-    .project h4{margin:0 0 8px}
-    .project p{color:var(--muted);margin:0 0 12px}
-    .tags{display:flex;gap:8px;flex-wrap:wrap}
-    .tag{background:var(--glass-2);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:13px}
-
-    .contact-row{display:flex;gap:18px;flex-wrap:wrap}
-    .contact-card{flex:1;min-width:260px}
-
-    footer{margin-top:48px;padding:28px 0;color:var(--muted);text-align:center}
-
-    /* responsive */
-    @media (max-width:980px){header.hero{grid-template-columns:1fr;gap:20px}.nav-links{display:none}.container{padding:18px}}
-    @media (max-width:560px){.grid-3{grid-template-columns:1fr}.profile .image{width:120px;height:120px}}
-
-    /* small utilities */
-    .muted{color:var(--muted)}
-    .small{font-size:13px}
-    .space-top{margin-top:18px}
-
-    /* subtle animations */
-    .fade-in{animation:fadeIn .7s ease both}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talukder Omar Faruk | Cyber Security Analyst</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the Cyber Matrix Theme */
+        :root {
+            --bg-dark: #0A0A0A; /* Deep Black Background */
+            --accent-green: #00FF41; /* Neon Green Accent */
+            --text-light: #CCCCCC; /* Light Gray Text */
+            --text-white: #FFFFFF;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Roboto Mono', monospace; /* Professional Monospace Font */
+        }
+        .accent-text { color: var(--accent-green); }
+        .accent-border { border-color: var(--accent-green); }
+        .accent-bg { background-color: var(--accent-green); }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <nav>
-      <div class="brand">
-        <div class="logo"> TF </div>
-        <div>
-          <div style="font-weight:700">Talukder Omar Faruk</div>
-          <div class="small muted">Software Engineer • Designer • Researcher</div>
-        </div>
-      </div>
-      <div class="nav-links">
-        <a class="small muted" href="#about">About</a>
-        <a class="small muted" href="#projects">Projects</a>
-        <a class="small muted" href="#contact">Contact</a>
-        <a class="btn" href="/resume.pdf" target="_blank">Resume</a>
-      </div>
-    </nav>
+<body class="antialiased">
 
-<header class="hero">
-  <div class="intro fade-in">
-    <p class="small muted">Hello — I’m</p>
-    <h1>Talukder Omar Faruk</h1>
+    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-md p-4 flex justify-between items-center border-b border-gray-800">
+        <h1 class="text-xl font-bold accent-text">Talukder Omar Faruk</h1>
+        <nav class="hidden md:flex space-x-6 text-sm">
+            <a href="#about" class="hover:text-white transition duration-300">ABOUT ME</a>
+            <a href="#skills" class="hover:text-white transition duration-300">SKILLS</a>
+            <a href="#projects" class="hover:text-white transition duration-300">PROJECTS</a>
+            <a href="#certs" class="hover:text-white transition duration-300">CERTIFICATES</a>
+            <a href="#experience" class="hover:text-white transition duration-300">EXPERIENCE</a>
+            <a href="#contact" class="hover:text-white transition duration-300">CONTACT</a>
+        </nav>
+        <button class="md:hidden text-xl">&#9776;</button>
+    </header>
 
-    <p>
-      I’m a passionate <strong>Web Developer</strong> and <strong>Cyber Security Professional (Blue Team Specialist)</strong>.
-      I focus on building secure, high-performance, and user-friendly digital products while defending systems from modern cyber threats.
-    </p>
+    <main class="max-w-7xl mx-auto p-8">
 
-    <p>
-      I hold industry-recognized certifications including 
-      <strong>CEH v12 Practical (EC-Council)</strong> and 
-      <strong>CNSP (Certified Network Security Practitioner)</strong>.
-      My goal is to combine development excellence with strong security principles.
-    </p>
+        <section id="hero" class="h-screen flex flex-col justify-center items-start text-left pt-20">
+            <p class="text-lg mb-2">Hello, I am</p>
+            <h2 class="text-7xl md:text-8xl font-extrabold text-white mb-4">TALUKDER OMAR FARUK</h2>
+            <h3 id="typing-text" class="text-3xl md:text-4xl font-semibold accent-text mb-10">Cyber Security Enthusiast >\_</h3>
+            
+            <a href="#contact" class="px-8 py-3 rounded-md text-black font-bold transition duration-300 accent-bg hover:opacity-80">
+                GET IN TOUCH
+            </a>
+            
+            <p class="mt-8 max-w-2xl text-base text-gray-400">
+                A performance-driven analyst specializing in security policies, incident investigation, and precise network configurations. Proven expertise in CTF challenges and rapid skill acquisition.
+            </p>
+        </section>
 
-    <div class="cta">
-      <a class="primary" href="#contact">Hire Me</a>
-      <a class="secondary" href="#projects">View My Work</a>
-    </div>
-
-    <div class="space-top card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div class="small muted">Location</div>
-          <div style="font-weight:700">Dhaka, Bangladesh</div>
-        </div>
-        <div>
-          <div class="small muted">Email</div>
-          <div style="font-weight:700">
-            <a href="mailto:omarjaki5254@gmail.com">omarjaki5254@gmail.com</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <aside class="profile card fade-in">
-    <div class="image">
-      <img src="image-01.jpg" alt="Talukder Omar Faruk" class="profile-pic">
-    </div>
-    <div style="font-weight:700; font-size:1.1rem;">Talukder Omar Faruk</div>
-    <small class="muted">Web Developer | Cyber Security (Blue Team)</small>
-    <div class="space-top small muted">CEH v12 Practical • CNSP Certified</div>
-    <div class="space-top small muted">Available for hire • Open to collaboration</div>
-  </aside>
-</header>
-
-
-    <section id="about">
-      <div class="card">
-        <h3>About Me</h3>
-        <p class="muted">I’m a problem-solver who loves building clean, maintainable software and well-crafted designs. My background spans web development, UI/UX, and research in [your field]. I focus on building accessible, performant and responsive applications.
-        </p>
-        <div class="grid-3 space-top">
-          <div>
-            <h4>Experience</h4>
-            <p class="muted small">3+ years building web apps, collaborating with cross-functional teams, and shipping end-to-end features.</p>
-          </div>
-          <div>
-            <h4>Education</h4>
-            <p class="muted small">B.Sc. in [Your Degree], [Your University].</p>
-          </div>
-          <div>
-            <h4>Interests</h4>
-            <p class="muted small">Web performance, product design, open-source, and machine learning.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="skills">
-      <h3 class="space-top">Skills</h3>
-      <div class="card space-top">
-        <div class="skills">
-          <div class="skill">HTML • CSS • JS</div>
-          <div class="skill">React • Next.js</div>
-          <div class="skill">Node.js • Express</div>
-          <div class="skill">Python • Flask</div>
-          <div class="skill">Figma • UI/UX</div>
-          <div class="skill">SQL • PostgreSQL</div>
-          <div class="skill">Git • CI/CD</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects">
-      <h3 class="space-top">Selected Projects</h3>
-      <div class="projects-grid space-top">
-        <article class="project">
-          <h4>Project One — Portfolio Template</h4>
-          <p>Create a responsive portfolio template with clean UI and accessible markup.</p>
-          <div class="tags space-top">
-            <span class="tag">HTML</span>
-            <span class="tag">CSS</span>
-            <span class="tag">Responsive</span>
-          </div>
-        </article>
-
-        <article class="project">
-          <h4>Project Two — Task Manager App</h4>
-          <p>A full-stack task manager with user authentication, real-time updates, and a REST API.</p>
-          <div class="tags space-top">
-            <span class="tag">React</span>
-            <span class="tag">Node</span>
-            <span class="tag">Socket.io</span>
-          </div>
-        </article>
-
-        <article class="project">
-          <h4>Project Three — Research Paper</h4>
-          <p>Co-authored a literature review on gut microbiota and its health impacts (example).</p>
-          <div class="tags space-top">
-            <span class="tag">Research</span>
-            <span class="tag">Biochemistry</span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section id="contact">
-      <h3 class="space-top">Contact</h3>
-      <div class="card space-top contact-row">
-        <div class="contact-card">
-          <h4>Get in touch</h4>
-          <p class="muted">I’m available for freelance projects and full-time opportunities. Send a short message and I’ll reply within a few days.</p>
-          <p class="space-top"><strong>Email:</strong> <a href="mailto:omarjaki5254@gmail.com">omarjaki5254@gmail.com</a></p>
-          <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/your-linkedin" target="_blank">linkedin.com/in/your-linkedin</a></p>
-        </div>
-
-        <div class="contact-card">
-          <h4>Send a message</h4>
-          <form onsubmit="submitForm(event)">
-            <div style="display:flex;flex-direction:column;gap:10px">
-              <input id="name" placeholder="Your name" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" required>
-              <input id="email" type="email" placeholder="Your email" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" required>
-              <textarea id="message" rows="5" placeholder="Message" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" required></textarea>
-              <div style="display:flex;gap:8px">
-                <button class="primary" type="submit">Send message</button>
-                <button type="reset" class="secondary">Reset</button>
-              </div>
+        <section id="about" class="py-20 border-t border-gray-800">
+            <h2 class="text-4xl font-bold mb-12 accent-text">WHO AM I?</h2>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <p class="text-lg mb-4 text-gray-300">
+                        As a performance-driven Network Security Analyst, I specialize in developing security policies, conducting incident investigations, and managing precise network/server configurations. I excel in teamwork, valued for reliability and a quick aptitude for skill acquisition. My dedication to honing cybersecurity skills is evident through my proficiency in Capture The Flag (CTF) challenges.
+                    </p>
+                    <p class="text-lg text-gray-300">
+                        **Current Role:** Beyond the Terminal, I contribute to education as a **Teacher** at Nasima Kadir Molla High School.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center">
+                    <div class="w-64 h-64 bg-gray-900 rounded-lg flex items-center justify-center text-gray-500">
+                        [Professional Photo/Cyber-themed Vector Art]
+                    </div>
+                </div>
             </div>
-          </form>
-          <small class="muted">(This form uses your email client. If you prefer, email directly to <a href="mailto:your-email@example.com">your-email@example.com</a>.)</small>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <footer>
-      © <span id="year"></span> Talukder Omar Faruk — Built with ❤️ • <a href="#">Privacy</a>
+        <section id="skills" class="py-20 border-t border-gray-800">
+            <h2 class="text-4xl font-bold mb-12 accent-text">SKILL MATRIX</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-[#1A1A1A] p-6 rounded-lg border-l-4 accent-border hover:bg-[#2A2A2A] transition duration-300">
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Penetration Testing</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li>Metasploit</li>
+                        <li>Nmap</li>
+                        <li>BurpSuite</li>
+                        <li>Web App. Pentest</li>
+                    </ul>
+                </div>
+                <div class="bg-[#1A1A1A] p-6 rounded-lg border-l-4 accent-border hover:bg-[#2A2A2A] transition duration-300">
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Scripting & Dev</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li>Python, Bash, C++</li>
+                        <li>Java, PHP, JavaScript</li>
+                        <li>Tailwind CSS</li>
+                    </ul>
+                </div>
+                <div class="bg-[#1A1A1A] p-6 rounded-lg border-l-4 accent-border hover:bg-[#2A2A2A] transition duration-300">
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Security/Tools</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li>Wireshark, TCPDump</li>
+                        <li>Linux, Windows OS</li>
+                        <li>Splunk (SIEM)</li>
+                        <li>CTF/Practice Grounds</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-20 border-t border-gray-800">
+            <h2 class="text-4xl font-bold mb-12 accent-text">SELECTED PROJECTS</h2>
+            <div class="space-y-10">
+                <div class="bg-[#1A1A1A] p-8 rounded-lg shadow-xl hover:shadow-2xl transition duration-300 border-l-4 accent-border">
+                    <h3 class="text-3xl font-bold mb-2 text-white">Automation of Central Library</h3>
+                    <p class="text-sm accent-text mb-4">PHP, JavaScript, Tailwind CSS, MySQL</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li>Dual-panel system (Librarian/Member) with comprehensive book and record management.</li>
+                        <li>**Automated fine enforcement via Bkash/Rocket** for late returns.</li>
+                        <li>Includes email notification system and CAPTCHA validation for security.</li>
+                    </ul>
+                </div>
+                <div class="bg-[#1A1A1A] p-8 rounded-lg shadow-xl hover:shadow-2xl transition duration-300 border-l-4 accent-border">
+                    <h3 class="text-3xl font-bold mb-2 text-white">Courier Service System</h3>
+                    <p class="text-sm accent-text mb-4">Java</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li>Service providers manage resources and track items.</li>
+                        <li>**Automatic email notifications** for customers (shipment/delivery).</li>
+                        <li>Generates product voucher copies and features a dynamic animated homepage.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="certs" class="py-20 border-t border-gray-800">
+            <h2 class="text-4xl font-bold mb-12 accent-text">CERTIFICATIONS & EDUCATION</h2>
+            
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold text-white mb-4">Education</h3>
+                <div class="border-l-2 border-gray-700 pl-4 space-y-4">
+                    <p>
+                        <span class="font-bold accent-text">B.Sc. in Computer Science and Engineering</span><br>
+                        Jatiya Kabi Kazi Nazrul Islam University (JKKNIU) | 2023<br>
+                        <span class="text-sm text-gray-400">GPA: 4.58 out of 5.00</span>
+                    </p>
+                    <p>
+                        <span class="font-bold">Higher Secondary School Certificate (HSC)</span><br>
+                        Netrakona Government College (2017 - 2019)
+                    </p>
+                </div>
+            </div>
+            
+            <h3 class="text-2xl font-bold text-white mb-4">Top Certifications</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-[#1A1A1A] p-6 rounded-lg shadow-md border-b-4 accent-border">
+                    <p class="font-bold text-lg text-white">Certified Ethical Hacker (Practical) <span class="accent-text">(With Merit)</span></p>
+                    <p class="text-sm text-gray-400">EC Council | April 2024</p>
+                </div>
+                <div class="bg-[#1A1A1A] p-6 rounded-lg shadow-md border-b-4 accent-border">
+                    <p class="font-bold text-lg text-white">Certified Network Security Practitioner (CNSP) <span class="accent-text">(With Merit)</span></p>
+                    <p class="text-sm text-gray-400">The SecOps Group | October 2023</p>
+                </div>
+                <div class="md:col-span-2 mt-4">
+                    <p class="text-white font-bold mb-2">Other Relevant Courses:</p>
+                    <span class="bg-[#2A2A2A] text-sm px-3 py-1 rounded-full mr-2 mb-2 inline-block">Practical Ethical Hacking (TCM)</span>
+                    <span class="bg-[#2A2A2A] text-sm px-3 py-1 rounded-full mr-2 mb-2 inline-block">CompTIA Security+ (Udemy)</span>
+                    <span class="bg-[#2A2A2A] text-sm px-3 py-1 rounded-full mr-2 mb-2 inline-block">Google Cybersecurity (Coursera)</span>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="experience" class="py-20 border-t border-gray-800">
+            <h2 class="text-4xl font-bold mb-12 accent-text">PROFESSIONAL JOURNEY</h2>
+            
+            <div class="grid md:grid-cols-2 gap-10">
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Organizational Roles</h3>
+                    <div class="space-y-6 border-l-2 border-gray-700 pl-4">
+                        <div class="relative">
+                            <span class="absolute -left-3 top-1 w-4 h-4 rounded-full accent-bg block"></span>
+                            <p class="font-bold text-white text-lg">Teacher</p>
+                            <p class="accent-text">Nasima Kadir Molla High School</p>
+                            <p class="text-sm text-gray-400">Current Role</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-3 top-1 w-4 h-4 rounded-full accent-bg block"></span>
+                            <p class="font-bold text-white text-lg">Associate Member</p>
+                            <p class="accent-text">Bangladesh Computer Society (BCS)</p>
+                            <p class="text-sm text-gray-400">June 2025 - Present</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-3 top-1 w-4 h-4 rounded-full accent-bg block"></span>
+                            <p class="font-bold text-white text-lg">Treasurer</p>
+                            <p class="accent-text">JKKNIU Cyber Security Club</p>
+                            <p class="text-sm text-gray-400">March 2024 - 2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-4">CTF & Competition Highlights</h3>
+                    <div class="space-y-6">
+                        <div class="p-4 bg-[#1A1A1A] rounded-lg">
+                            <p class="font-bold text-white text-lg">FlagHunt CTF 2023 (MIST)</p>
+                            <p class="accent-text">Ranked **2nd**</p>
+                            <p class="text-sm text-gray-400">Team: JKKNIU\_C7b3r\_K9!ghts</p>
+                        </div>
+                        <div class="p-4 bg-[#1A1A1A] rounded-lg">
+                            <p class="font-bold text-white text-lg">iutCTF 2024</p>
+                            <p class="accent-text">Rank: 21st (Team Leader)</p>
+                            <p class="text-sm text-gray-400">Team: JKKNIU Cr4ck3rs</p>
+                        </div>
+                        <p class="mt-4 text-white font-bold">Practice Ground Leaderboard:</p>
+                        <span class="bg-[#2A2A2A] text-sm px-3 py-1 rounded-full inline-block mr-2">TryHackMe (Top 3%)</span>
+                        <span class="bg-[#2A2A2A] text-sm px-3 py-1 rounded-full inline-block">Hack The Box</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="contact" class="py-20 border-t border-gray-800">
+            <h2 class="text-4xl font-bold mb-12 accent-text">CONTACT ME</h2>
+            
+            <div class="grid md:grid-cols-2 gap-10">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Send a Message</h3>
+                    <form class="space-y-4">
+                        <input type="text" placeholder="Your Name" class="w-full p-3 bg-[#1A1A1A] border border-gray-700 focus:border-white rounded text-white">
+                        <input type="email" placeholder="Your Email" class="w-full p-3 bg-[#1A1A1A] border border-gray-700 focus:border-white rounded text-white">
+                        <textarea placeholder="Your Message" rows="4" class="w-full p-3 bg-[#1A1A1A] border border-gray-700 focus:border-white rounded text-white"></textarea>
+                        <button type="submit" class="px-6 py-3 rounded-md text-black font-bold transition duration-300 accent-bg hover:opacity-80">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">My Details</h3>
+                    <ul class="space-y-3 text-lg">
+                        <li><span class="accent-text">Email:</span> omarjaki5254@gmail.com</li>
+                        <li><span class="accent-text">Phone:</span> +8801730987887</li>
+                        <li><span class="accent-text">Address:</span> Purbadhala, Netrokona</li>
+                        <li class="pt-4">
+                            <a href="https://www.linkedin.com/in/omarjaki" target="_blank" class="accent-text text-3xl mr-4 hover:text-white transition duration-300">in</a>
+                            <a href="https://github.com/talukderomarfaruk" target="_blank" class="accent-text text-3xl mr-4 hover:text-white transition duration-300">gh</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-6 border-t border-gray-800 text-sm text-gray-500">
+        &copy; 2024 Talukder Omar Faruk. All Rights Reserved.
     </footer>
-  </div>
 
-  <script>
-    // small scripts: year + contact mailto handling
-    document.getElementById('year').innerText = new Date().getFullYear();
+    <script>
+        const textElement = document.getElementById('typing-text');
+        const roles = ["Cyber Security Enthusiast >_", "Network Security Analyst >_", "Ethical Hacker >_"];
+        let roleIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 100;
 
-    function submitForm(e){
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const message = document.getElementById('message').value.trim();
-      if(!name || !email || !message) return alert('Please fill all fields');
-      const subject = encodeURIComponent('Website contact from ' + name);
-      const body = encodeURIComponent(message + '\n\n— ' + name + ' (' + email + ')');
-      window.location.href = `mailto:omarjaki5254@gmail.com?subject=${subject}&body=${body}`;
-    }
+        function type() {
+            const currentText = roles[roleIndex];
+            
+            if (isDeleting) {
+                textElement.textContent = currentText.substring(0, charIndex--);
+            } else {
+                textElement.textContent = currentText.substring(0, charIndex++);
+            }
 
-    // smooth scroll for internal links
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        e.preventDefault();
-        const target = document.querySelector(a.getAttribute('href'));
-        if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
-      })
-    })
-  </script>
+            if (!isDeleting && charIndex === currentText.length + 1) {
+                // Pause at the end
+                typingSpeed = 1500;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                roleIndex = (roleIndex + 1) % roles.length; // Loop to the next role
+                typingSpeed = 100;
+            } else {
+                typingSpeed = isDeleting ? 50 : 100;
+            }
+
+            setTimeout(type, typingSpeed);
+        }
+
+        document.addEventListener('DOMContentLoaded', type);
+    </script>
 </body>
 </html>
