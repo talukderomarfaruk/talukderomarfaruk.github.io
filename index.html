@@ -1,12 +1,274 @@
-<!DOCTYPE html>
+<!--
+Portfolio template for: Talukder Omar Faruk
+Instructions:
+1. Open this file (index.html) in a browser to preview.
+2. Replace placeholder text (name, bio, projects, contact email) with your own.
+3. To publish: create repo named talukderomarfaruk.github.io and add this index.html as the root file.
+
+Features:
+- Responsive, modern design
+- Hero, About, Skills, Projects, Contact, Footer
+- Smooth scrolling, project cards, contact mailto link
+- Easy to customize colors & content
+-->
+
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Talukder Omar Faruk</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Talukder Omar Faruk — Portfolio</title>
+  <meta name="description" content="Talukder Omar Faruk — Software Engineer | Designer | Researcher. Professional portfolio." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#94a3b8;
+      --accent:linear-gradient(135deg,#7c3aed,#06b6d4);
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+      --radius: 14px;
+      --maxw:1200px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:radial-gradient(circle at 10% 10%, rgba(7,12,22,1), transparent 20%), var(--bg);color:#e6eef8}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--maxw);margin:0 auto;padding:28px}
+
+    /* NAV */
+    nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:48px;height:48px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;color:white}
+    .nav-links{display:flex;gap:18px;align-items:center}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:8px 12px;border-radius:10px;font-weight:600}
+
+    header.hero{padding:40px 0;display:grid;grid-template-columns:1fr 420px;gap:32px;align-items:center}
+    .intro h1{font-size:clamp(26px,5vw,44px);margin:0 0 12px}
+    .intro p{color:var(--muted);line-height:1.6;margin:0 0 18px}
+    .cta{display:flex;gap:12px}
+    .primary{background:var(--accent);padding:10px 16px;border-radius:10px;color:white;font-weight:700}
+    .secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:var(--muted)}
+
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:var(--radius);padding:18px;border:1px solid rgba(255,255,255,0.03)}
+
+    /* profile */
+    .profile{display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center}
+    .profile .image{width:160px;height:160px;border-radius:20px;background:linear-gradient(180deg,#0ea5b7,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:white}
+    .profile small{color:var(--muted)}
+
+    /* sections */
+    section{margin-top:36px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .skills{display:flex;gap:12px;flex-wrap:wrap}
+    .skill{background:var(--glass);padding:8px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .project{overflow:hidden;border-radius:12px;background:var(--card);padding:16px;border:1px solid rgba(255,255,255,0.03)}
+    .project h4{margin:0 0 8px}
+    .project p{color:var(--muted);margin:0 0 12px}
+    .tags{display:flex;gap:8px;flex-wrap:wrap}
+    .tag{background:var(--glass-2);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:13px}
+
+    .contact-row{display:flex;gap:18px;flex-wrap:wrap}
+    .contact-card{flex:1;min-width:260px}
+
+    footer{margin-top:48px;padding:28px 0;color:var(--muted);text-align:center}
+
+    /* responsive */
+    @media (max-width:980px){header.hero{grid-template-columns:1fr;gap:20px}.nav-links{display:none}.container{padding:18px}}
+    @media (max-width:560px){.grid-3{grid-template-columns:1fr}.profile .image{width:120px;height:120px}}
+
+    /* small utilities */
+    .muted{color:var(--muted)}
+    .small{font-size:13px}
+    .space-top{margin-top:18px}
+
+    /* subtle animations */
+    .fade-in{animation:fadeIn .7s ease both}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  </style>
 </head>
 <body>
-  <h1>Welcome to Talukder Omar Faruk’s Official Page</h1>
-  <p>This is my personal GitHub website. Stay tuned for updates!</p>
+  <div class="container">
+    <nav>
+      <div class="brand">
+        <div class="logo">TF</div>
+        <div>
+          <div style="font-weight:700">Talukder Omar Faruk</div>
+          <div class="small muted">Software Engineer • Designer • Researcher</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a class="small muted" href="#about">About</a>
+        <a class="small muted" href="#projects">Projects</a>
+        <a class="small muted" href="#contact">Contact</a>
+        <a class="btn" href="/resume.pdf" target="_blank">Resume</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="intro fade-in">
+        <p class="small muted">Hello — I’m</p>
+        <h1>Talukder Omar Faruk</h1>
+        <p>I build polished digital products, solve problems with clean code, and design delightful experiences. I’m currently open to freelance & full‑time roles.</p>
+        <div class="cta">
+          <a class="primary" href="#contact">Hire me</a>
+          <a class="secondary" href="#projects">View my work</a>
+        </div>
+
+        <div class="space-top card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div class="small muted">Location</div>
+              <div style="font-weight:700">Dhaka, Bangladesh</div>
+            </div>
+            <div>
+              <div class="small muted">Email</div>
+              <div style="font-weight:700"><a href="mailto:your-email@example.com">your-email@example.com</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="profile card fade-in">
+        <div class="image">TF</div>
+        <div style="font-weight:700">Talukder Omar Faruk</div>
+        <small class="muted">Full-stack developer & UI/UX designer</small>
+        <div class="space-top small muted">Available for hire • Open to collaboration</div>
+      </aside>
+    </header>
+
+    <section id="about">
+      <div class="card">
+        <h3>About Me</h3>
+        <p class="muted">I’m a problem-solver who loves building clean, maintainable software and well-crafted designs. My background spans web development, UI/UX, and research in [your field]. I focus on building accessible, performant and responsive applications.
+        </p>
+        <div class="grid-3 space-top">
+          <div>
+            <h4>Experience</h4>
+            <p class="muted small">3+ years building web apps, collaborating with cross-functional teams, and shipping end-to-end features.</p>
+          </div>
+          <div>
+            <h4>Education</h4>
+            <p class="muted small">B.Sc. in [Your Degree], [Your University].</p>
+          </div>
+          <div>
+            <h4>Interests</h4>
+            <p class="muted small">Web performance, product design, open-source, and machine learning.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h3 class="space-top">Skills</h3>
+      <div class="card space-top">
+        <div class="skills">
+          <div class="skill">HTML • CSS • JS</div>
+          <div class="skill">React • Next.js</div>
+          <div class="skill">Node.js • Express</div>
+          <div class="skill">Python • Flask</div>
+          <div class="skill">Figma • UI/UX</div>
+          <div class="skill">SQL • PostgreSQL</div>
+          <div class="skill">Git • CI/CD</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h3 class="space-top">Selected Projects</h3>
+      <div class="projects-grid space-top">
+        <article class="project">
+          <h4>Project One — Portfolio Template</h4>
+          <p>Create a responsive portfolio template with clean UI and accessible markup.</p>
+          <div class="tags space-top">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">Responsive</span>
+          </div>
+        </article>
+
+        <article class="project">
+          <h4>Project Two — Task Manager App</h4>
+          <p>A full-stack task manager with user authentication, real-time updates, and a REST API.</p>
+          <div class="tags space-top">
+            <span class="tag">React</span>
+            <span class="tag">Node</span>
+            <span class="tag">Socket.io</span>
+          </div>
+        </article>
+
+        <article class="project">
+          <h4>Project Three — Research Paper</h4>
+          <p>Co-authored a literature review on gut microbiota and its health impacts (example).</p>
+          <div class="tags space-top">
+            <span class="tag">Research</span>
+            <span class="tag">Biochemistry</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h3 class="space-top">Contact</h3>
+      <div class="card space-top contact-row">
+        <div class="contact-card">
+          <h4>Get in touch</h4>
+          <p class="muted">I’m available for freelance projects and full-time opportunities. Send a short message and I’ll reply within a few days.</p>
+          <p class="space-top"><strong>Email:</strong> <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+          <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/your-linkedin" target="_blank">linkedin.com/in/your-linkedin</a></p>
+        </div>
+
+        <div class="contact-card">
+          <h4>Send a message</h4>
+          <form onsubmit="submitForm(event)">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <input id="name" placeholder="Your name" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" required>
+              <input id="email" type="email" placeholder="Your email" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" required>
+              <textarea id="message" rows="5" placeholder="Message" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" required></textarea>
+              <div style="display:flex;gap:8px">
+                <button class="primary" type="submit">Send message</button>
+                <button type="reset" class="secondary">Reset</button>
+              </div>
+            </div>
+          </form>
+          <small class="muted">(This form uses your email client. If you prefer, email directly to <a href="mailto:your-email@example.com">your-email@example.com</a>.)</small>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Talukder Omar Faruk — Built with ❤️ • <a href="#">Privacy</a>
+    </footer>
+  </div>
+
+  <script>
+    // small scripts: year + contact mailto handling
+    document.getElementById('year').innerText = new Date().getFullYear();
+
+    function submitForm(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if(!name || !email || !message) return alert('Please fill all fields');
+      const subject = encodeURIComponent('Website contact from ' + name);
+      const body = encodeURIComponent(message + '\n\n— ' + name + ' (' + email + ')');
+      window.location.href = `mailto:your-email@example.com?subject=${subject}&body=${body}`;
+    }
+
+    // smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+      })
+    })
+  </script>
 </body>
 </html>
