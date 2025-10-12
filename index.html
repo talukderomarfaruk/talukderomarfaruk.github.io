@@ -40,19 +40,42 @@
 
     <main class="max-w-7xl mx-auto p-8">
 
-        <section id="hero" class="h-screen flex flex-col justify-center items-start text-left pt-20">
-            <p class="text-lg mb-2">Hello, I am</p>
-            <h2 class="text-7xl md:text-8xl font-extrabold text-white mb-4">TALUKDER OMAR FARUK</h2>
-            <h3 id="typing-text" class="text-3xl md:text-4xl font-semibold accent-text mb-10">Cyber Security Enthusiast >\_</h3>
-            
-            <a href="#contact" class="px-8 py-3 rounded-md text-black font-bold transition duration-300 accent-bg hover:opacity-80">
-                GET IN TOUCH
-            </a>
-            
-            <p class="mt-8 max-w-2xl text-base text-gray-400">
-                A performance-driven analyst specializing in security policies, incident investigation, and precise network configurations. Proven expertise in CTF challenges and rapid skill acquisition.
-            </p>
-        </section>
+<section
+  id="hero"
+  class="relative h-screen flex flex-col justify-center items-start text-left pt-20 bg-cover bg-center bg-fixed"
+  style="background-image: url('image1.png');"
+>
+  <!-- Overlay (for opacity effect) -->
+  <div class="absolute inset-0 bg-black/60"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 px-8">
+    <p class="text-lg mb-2 text-gray-200">Hello, I am</p>
+    <h2 class="text-7xl md:text-8xl font-extrabold text-white mb-4">
+      TALUKDER OMAR FARUK
+    </h2>
+    <h3
+      id="typing-text"
+      class="text-3xl md:text-4xl font-semibold text-[#00e0ff] mb-10"
+    >
+      Cyber Security Enthusiast >\_
+    </h3>
+
+    <a
+      href="#contact"
+      class="px-8 py-3 rounded-md text-black font-bold transition duration-300 bg-[#00e0ff] hover:opacity-80"
+    >
+      GET IN TOUCH
+    </a>
+
+    <p class="mt-8 max-w-2xl text-base text-gray-300">
+      A performance-driven analyst specializing in security policies, incident
+      investigation, and precise network configurations. Proven expertise in CTF
+      challenges and rapid skill acquisition.
+    </p>
+  </div>
+</section>
+
 
         <section id="about" class="py-20 border-t border-gray-800">
             <h2 class="text-4xl font-bold mb-12 accent-text">WHO AM I?</h2>
