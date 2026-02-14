@@ -3,335 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talukder Omar Faruk | Cyber Security Analyst</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Talukder Omar Faruk | AI & Cyber Security</title>
     
-    <!-- Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <style>
-        /* Custom styles for the Cyber Matrix Theme */
         :root {
-            --bg-dark: #0A0A0A; /* Deep Black Background */
-            --accent-green: #00FF41; /* Neon Green Accent */
-            --text-light: #CCCCCC; /* Light Gray Text */
-            --text-white: #FFFFFF;
+            --neon-green: #00FF41;
+            --ai-blue: #00e0ff;
+            --bg-black: #050505;
         }
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Roboto Mono', monospace; /* Professional Monospace Font */
+            background-color: var(--bg-black);
+            color: #e5e5e5;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
-        .accent-text { color: var(--accent-green); }
-        .accent-border { border-color: var(--accent-green); }
-        .accent-bg { background-color: var(--accent-green); }
+        .mono { font-family: 'Fira Code', monospace; }
+        
+        /* Background Matrix Effect */
+        #matrix {
+            position: fixed;
+            top: 0; left: 0;
+            z-index: -1;
+            opacity: 0.12;
+        }
+
+        /* Glassmorphism Styles */
+        .glass {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glass:hover {
+            border-color: var(--ai-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 224, 255, 0.15);
+        }
+
+        /* Custom UI Elements */
+        .glow-text { text-shadow: 0 0 15px rgba(0, 224, 255, 0.6); }
+        .hero-gradient {
+            background: radial-gradient(circle at center, rgba(0, 224, 255, 0.05) 0%, transparent 70%);
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-md p-4 flex justify-between items-center border-b border-gray-800">
-        <h1 class="text-xl font-bold accent-text">Talukder Omar Faruk</h1>
-        <nav class="hidden md:flex space-x-6 text-sm">
-            <a href="#about" class="hover:text-white transition duration-300">ABOUT ME</a>
-            <a href="#skills" class="hover:text-white transition duration-300">SKILLS</a>
-            <a href="#projects" class="hover:text-white transition duration-300">PROJECTS</a>
-            <a href="#certs" class="hover:text-white transition duration-300">CERTIFICATES</a>
-            <a href="#experience" class="hover:text-white transition duration-300">EXPERIENCE</a>
-            <a href="#contact" class="hover:text-white transition duration-300">CONTACT</a>
-        </nav>
-        <button class="md:hidden text-xl">&#9776;</button>
+    <canvas id="matrix"></canvas>
+
+    <header class="fixed w-full z-50 bg-black/50 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold mono tracking-tighter text-[#00e0ff]">
+                <span class="text-white">&lt;</span> OMAR.FARUK <span class="text-white">/&gt;</span>
+            </h1>
+            <nav class="hidden md:flex space-x-8 text-[10px] font-bold uppercase tracking-[0.2em]">
+                <a href="#hero" class="hover:text-[#00e0ff] transition">Home</a>
+                <a href="#about" class="hover:text-[#00e0ff] transition">Who_Am_I</a>
+                <a href="#stats" class="hover:text-[#00e0ff] transition">Metrics</a>
+                <a href="#projects" class="hover:text-[#00e0ff] transition">Projects</a>
+                <a href="#contact" class="hover:text-[#00e0ff] transition">Contact</a>
+            </nav>
+            <button class="px-5 py-2 border border-[#00e0ff]/40 text-[#00e0ff] text-xs font-bold rounded hover:bg-[#00e0ff] hover:text-black transition duration-500">
+                RESUME.PDF
+            </button>
+        </div>
     </header>
 
-    <main class="max-w-7xl mx-auto p-8">
-
-<section
-  id="hero"
-  class="relative h-screen flex flex-col justify-center items-start text-left pt-20 bg-cover bg-center bg-fixed"
-  style="background-image: url('image1.png');"
->
-  <!-- Overlay (for opacity effect) -->
-  <div class="absolute inset-0 bg-black/60"></div>
-
-  <!-- Content -->
-  <div class="relative z-10 px-8">
-    <p class="text-lg mb-2 text-gray-200">Hello, I am</p>
-    <h2 class="text-7xl md:text-8xl font-extrabold text-white mb-4">
-      TALUKDER OMAR FARUK
-    </h2>
-    <h3
-      id="typing-text"
-      class="text-3xl md:text-4xl font-semibold text-[#00e0ff] mb-10"
-    >
-      Cyber Security Enthusiast >\_
-    </h3>
-
-    <a
-      href="#contact"
-      class="px-8 py-3 rounded-md text-black font-bold transition duration-300 bg-[#00e0ff] hover:opacity-80"
-    >
-      GET IN TOUCH
-    </a>
-
-    <p class="mt-8 max-w-2xl text-base text-gray-300">
-      A performance-driven analyst specializing in security policies, incident
-      investigation, and precise network configurations. Proven expertise in CTF
-      challenges and rapid skill acquisition.
-    </p>
-  </div>
-</section>
-
-
-        <section id="about" class="py-20 border-t border-gray-800">
-            <h2 class="text-4xl font-bold mb-12 accent-text">WHO AM I?</h2>
-            <div class="grid md:grid-cols-2 gap-12">
-                <div>
-                    <p class="text-lg mb-4 text-gray-300">
-                        As a performance-driven Network Security Analyst, I specialize in developing security policies, conducting incident investigations, and managing precise network/server configurations. I excel in teamwork, valued for reliability and a quick aptitude for skill acquisition. My dedication to honing cybersecurity skills is evident through my proficiency in Capture The Flag (CTF) challenges.
-                    </p>
-                    <p class="text-lg text-gray-300">
-                        **Current Role:** Beyond the Terminal, I contribute to education as a **Teacher** at Nasima Kadir Molla High School.
-                    </p>
-                </div>
-                <div class="flex justify-center items-center">
-<div class="flex justify-center items-center">
-    <img src="image.png" alt="Talukder Omar Faruk - Profile Picture"
-         class="w-64 h-64 object-cover rounded-full border-4 accent-border shadow-xl transform transition duration-500 hover:scale-105"
-    >
-</div>
+    <main class="relative">
+        
+        <section id="hero" class="h-screen flex flex-col justify-center items-center text-center px-6 hero-gradient">
+            <div data-aos="fade-up">
+                <p class="mono text-[#00e0ff] mb-4 tracking-[0.3em] text-sm uppercase">Secure connection established</p>
+                <h2 class="text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter">
+                    TALUKDER <br> <span class="glow-text text-[#00e0ff]">OMAR FARUK</span>
+                </h2>
+                <h3 id="typing-text" class="text-xl md:text-2xl mono text-gray-400 h-8"></h3>
+                
+                <div class="mt-12 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 justify-center">
+                    <a href="#projects" class="px-10 py-4 bg-[#00e0ff] text-black font-black rounded-full hover:shadow-[0_0_20px_rgba(0,224,255,0.4)] transition transform hover:scale-105">EXPLORE PROJECTS</a>
+                    <a href="#contact" class="px-10 py-4 border border-white/20 hover:border-[#00e0ff] transition rounded-full font-bold">GET IN TOUCH</a>
                 </div>
             </div>
         </section>
 
-        <section id="skills" class="py-20 border-t border-gray-800">
-            <h2 class="text-4xl font-bold mb-12 accent-text">SKILL MATRIX</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-[#1A1A1A] p-6 rounded-lg border-l-4 accent-border hover:bg-[#2A2A2A] transition duration-300">
-                    <h3 class="text-2xl font-semibold mb-4 text-white">Penetration Testing</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-300">
-                        <li>Metasploit</li>
-                        <li>Nmap</li>
-                        <li>BurpSuite</li>
-                        <li>Web App. Pentest</li>
-                        <li><a href='https://www.canva.com/design/DAG2ZSh9qLM/8qZo3NAgRcamfS9l9GzM8Q/view?utm_content=DAG2ZSh9qLM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h13bcac6062'>
-                        Link </a></li>
-                    </ul>
-                </div>
-                <div class="bg-[#1A1A1A] p-6 rounded-lg border-l-4 accent-border hover:bg-[#2A2A2A] transition duration-300">
-                    <h3 class="text-2xl font-semibold mb-4 text-white">Scripting & Dev</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-300">
-                        <li>Python, Bash, C++</li>
-                        <li>Java, PHP, JavaScript</li>
-                        <li>Tailwind CSS</li>
-                    </ul>
-                </div>
-                <div class="bg-[#1A1A1A] p-6 rounded-lg border-l-4 accent-border hover:bg-[#2A2A2A] transition duration-300">
-                    <h3 class="text-2xl font-semibold mb-4 text-white">Security/Tools</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-300">
-                        <li>Wireshark, TCPDump</li>
-                        <li>Linux, Windows OS</li>
-                        <li>Splunk (SIEM)</li>
-                        <li>CTF/Practice Grounds</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="py-20 border-t border-gray-800">
-            <h2 class="text-4xl font-bold mb-12 accent-text">SELECTED PROJECTS</h2>
-            <div class="space-y-10">
-                <div class="bg-[#1A1A1A] p-8 rounded-lg shadow-xl hover:shadow-2xl transition duration-300 border-l-4 accent-border">
-                    <h3 class="text-3xl font-bold mb-2 text-white">Automation of Central Library</h3>
-                    <p class="text-sm accent-text mb-4">PHP, JavaScript, Tailwind CSS, MySQL</p>
-                    <ul class="list-disc list-inside space-y-2 text-gray-300">
-                        <li>Dual-panel system (Librarian/Member) with comprehensive book and record management.</li>
-                        <li>**Automated fine enforcement via Bkash/Rocket** for late returns.</li>
-                        <li>Includes email notification system and CAPTCHA validation for security.</li>
-                    </ul>
-                </div>
-                <div class="bg-[#1A1A1A] p-8 rounded-lg shadow-xl hover:shadow-2xl transition duration-300 border-l-4 accent-border">
-                    <h3 class="text-3xl font-bold mb-2 text-white">Courier Service System</h3>
-                    <p class="text-sm accent-text mb-4">Java</p>
-                    <ul class="list-disc list-inside space-y-2 text-gray-300">
-                        <li>Service providers manage resources and track items.</li>
-                        <li>**Automatic email notifications** for customers (shipment/delivery).</li>
-                        <li>Generates product voucher copies and features a dynamic animated homepage.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="certs" class="py-20 border-t border-gray-800">
-            <h2 class="text-4xl font-bold mb-12 accent-text">CERTIFICATIONS & EDUCATION</h2>
-            
-            <div class="mb-12">
-                <h3 class="text-2xl font-bold text-white mb-4">Education</h3>
-                <div class="border-l-2 border-gray-700 pl-4 space-y-4">
-                    <p>
-                        <span class="font-bold accent-text">B.Sc. in Computer Science and Engineering</span><br>
-                        Jatiya Kabi Kazi Nazrul Islam University (JKKNIU) | 2023<br>
-                        
+        <section id="about" class="max-w-7xl mx-auto py-32 px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-right">
+                    <h2 class="text-3xl font-bold mb-6 text-white mono">&gt; Who_Am_I?</h2>
+                    <p class="text-lg text-gray-400 leading-relaxed mb-8">
+                        I am a <span class="text-white font-bold">Cyber Security Specialist</span> by day and an <span class="text-[#00e0ff] font-bold">AI Researcher</span> by night. Currently serving as a Teacher at <span class="italic text-gray-300">Nasima Kadir Molla High School</span>, I dedicate my expertise to securing digital assets and researching EEG signal processing for healthcare.
                     </p>
-                    <p>
-                        <span class="font-bold">Higher Secondary School Certificate (HSC)</span><br>
-                        Netrakona Government College | 2019
-                    </p>
-                    <p>
-                        <span class="font-bold">Secondary School Certificate (SSC)</span><br>
-                        Ichulia High School | 2017
-                    </p>
-                </div>
-            </div>
-            
-            <h3 class="text-2xl font-bold text-white mb-4">Top Certifications</h3>
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-[#1A1A1A] p-6 rounded-lg shadow-md border-b-4 accent-border">
-                    <p class="font-bold text-lg text-white">Certified Ethical Hacker (Practical) <span class="accent-text">(With Merit)</span></p>
-                    <p class="text-sm text-gray-400">EC Council | April 2024</p>
-                </div>
-                <div class="bg-[#1A1A1A] p-6 rounded-lg shadow-md border-b-4 accent-border">
-                    <p class="font-bold text-lg text-white">Certified Network Security Practitioner (CNSP) <span class="accent-text">(With Merit)</span></p>
-                    <p class="text-sm text-gray-400">The SecOps Group | October 2023</p>
-                </div>
-                <div class="md:col-span-2 mt-4">
-                    <p class="text-white font-bold mb-2">Other Relevant Courses:</p>
-                    <span class="bg-[#2A2A2A] text-sm px-3 py-1 rounded-full mr-2 mb-2 inline-block">Practical Ethical Hacking (TCM)</span>
-                    <span class="bg-[#2A2A2A] text-sm px-3 py-1 rounded-full mr-2 mb-2 inline-block">CompTIA Security+ (Udemy)</span>
-                    <span class="bg-[#2A2A2A] text-sm px-3 py-1 rounded-full mr-2 mb-2 inline-block">Google Cybersecurity (Coursera)</span>
-                </div>
-            </div>
-        </section>
-
-
-        <section id="experience" class="py-20 border-t border-gray-800">
-            <h2 class="text-4xl font-bold mb-12 accent-text">PROFESSIONAL JOURNEY</h2>
-            
-            <div class="grid md:grid-cols-2 gap-10">
-<div>
-    <h3 class="text-2xl font-bold text-white mb-4">Organizational Roles</h3>
-    
-    <div class="space-y-6 border-l-2 border-gray-700 pl-4">
-        
-        <div class="relative">
-            <span class="absolute -left-3 top-0 mt-2 w-4 h-4 rounded-full accent-bg block"></span>
-            
-            <p class="font-bold text-white text-lg">&nbsp;Teacher</p>
-            <p class="accent-text">&nbsp;Nasima Kadir Molla High School</p>
-            <p class="text-sm text-gray-400">&nbsp;Current Role</p>
-        </div>
-        
-        <div class="relative">
-            <span class="absolute -left-3 top-0 mt-2 w-4 h-4 rounded-full accent-bg block"></span>
-            
-            <p class="font-bold text-white text-lg">&nbsp;Associate Member</p>
-            <p class="accent-text">&nbsp;Bangladesh Computer Society (BCS)</p>
-            <p class="text-sm text-gray-400">&nbsp;June 2025 - Present</p>
-        </div>
-        
-        <div class="relative">
-            <span class="absolute -left-3 top-0 mt-2 w-4 h-4 rounded-full accent-bg block"></span>
-            
-            <p class="font-bold text-white text-lg">&nbsp;Treasurer</p>
-            <p class="accent-text">&nbsp;JKKNIU Cyber Security Club</p>
-            <p class="text-sm text-gray-400">&nbsp;March 2024 - 2025</p>
-        </div>
-        
-    </div>
-</div>
-</div>
-
-                <div>
-                    <h3 class="text-2xl font-bold text-white mb-4">CTF & Competition Highlights</h3>
-                    <div class="space-y-6">
-                        <div class="p-4 bg-[#1A1A1A] rounded-lg">
-                            <p class="font-bold text-white text-lg">FlagHunt CTF 2023 (MIST)</p>
-                            <p class="accent-text">Ranked **2nd**</p>
-                            <p class="text-sm text-gray-400">Team: JKKNIU\_C7b3r\_K9!ghts</p>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded bg-[#00e0ff]/10 flex items-center justify-center text-[#00e0ff]">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">AI Enthusiast</h4>
+                                <p class="text-xs text-gray-500">Seizure Detection & Signal Processing</p>
+                            </div>
                         </div>
-                        <div class="p-4 bg-[#1A1A1A] rounded-lg">
-                            <p class="font-bold text-white text-lg">iutCTF 2024</p>
-                            <p class="accent-text">Rank: 21st (Team Leader)</p>
-                            <p class="text-sm text-gray-400">Team: JKKNIU Cr4ck3rs</p>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded bg-[#00FF41]/10 flex items-center justify-center text-[#00FF41]">
+                                <i class="fas fa-user-secret"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">Ethical Hacker</h4>
+                                <p class="text-xs text-gray-500">Certified CEH (Practical) & CNSP</p>
+                            </div>
                         </div>
-                        <p class="mt-4 text-white font-bold">Practice Ground Leaderboard:</p>
-                        <span class="bg-[#2A2A2A] text-sm px-3 py-1 rounded-full inline-block mr-2">TryHackMe (Top 3%)</span>
-                        <span class="bg-[#2A2A2A] text-sm px-3 py-1 rounded-full inline-block">Hack The Box</span>
+                    </div>
+                </div>
+                <div class="relative group" data-aos="fade-left">
+                    <div class="absolute -inset-2 bg-gradient-to-r from-[#00e0ff] to-[#00FF41] rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+                    <img src="image.png" alt="Omar Faruk" class="relative z-10 w-full max-w-md mx-auto rounded-2xl grayscale hover:grayscale-0 transition duration-700 border border-white/10 shadow-2xl">
+                </div>
+            </div>
+        </section>
+
+        <section id="stats" class="max-w-7xl mx-auto py-20 px-6">
+            <h2 class="text-3xl font-bold mb-12 text-white mono" data-aos="fade-right">&gt; Stats_&_Metrics</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass p-10 rounded-3xl border-l-4 border-[#20beff] flex items-center" data-aos="zoom-in">
+                    <div class="mr-8">
+                        <i class="fab fa-kaggle text-6xl text-[#20beff]"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-black text-white">Kaggle Researcher</h3>
+                        <p class="text-gray-400 mt-1 mb-4">Mastering EEG Seizure Classification</p>
+                        <a href="https://www.kaggle.com/talukderomarfaruk" target="_blank" class="px-4 py-1.5 bg-[#20beff]/10 text-[#20beff] text-[10px] font-bold rounded uppercase border border-[#20beff]/20 hover:bg-[#20beff] hover:text-white transition">Visit Notebooks</a>
+                    </div>
+                </div>
+                <div class="glass p-10 rounded-3xl border-l-4 border-[#00FF41] flex items-center" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="mr-8">
+                        <i class="fas fa-shield-virus text-6xl text-[#00FF41]"></i>
+                    </div>
+                    <div class="w-full">
+                        <h3 class="text-2xl font-black text-white">Cyber Rank</h3>
+                        <p class="text-gray-400 mt-1">TryHackMe: Top 3% Global</p>
+                        <div class="w-full bg-white/5 h-2 rounded-full mt-4 overflow-hidden">
+                            <div class="bg-[#00FF41] h-full" style="width: 97%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-
-        <section id="contact" class="py-20 border-t border-gray-800">
-            <h2 class="text-4xl font-bold mb-12 accent-text">CONTACT ME</h2>
+        <section id="projects" class="max-w-7xl mx-auto py-32 px-6">
+            <div class="mb-16">
+                <h2 class="text-4xl font-black text-white tracking-tighter">PROJECT_VAULT</h2>
+                <div class="w-20 h-1 bg-[#00e0ff] mt-4"></div>
+            </div>
             
             <div class="grid md:grid-cols-2 gap-10">
-                <div>
-                    <h3 class="text-2xl font-semibold mb-4 text-white">Send a Message</h3>
-                    <form class="space-y-4">
-                        <input type="text" placeholder="Your Name" class="w-full p-3 bg-[#1A1A1A] border border-gray-700 focus:border-white rounded text-white">
-                        <input type="email" placeholder="Your Email" class="w-full p-3 bg-[#1A1A1A] border border-gray-700 focus:border-white rounded text-white">
-                        <textarea placeholder="Your Message" rows="4" class="w-full p-3 bg-[#1A1A1A] border border-gray-700 focus:border-white rounded text-white"></textarea>
-                        <button type="submit" class="px-6 py-3 rounded-md text-black font-bold transition duration-300 accent-bg hover:opacity-80">
-                            Send Message
-                        </button>
-                    </form>
+                <div class="glass rounded-3xl overflow-hidden group" data-aos="fade-up">
+                    <div class="h-64 bg-zinc-900 relative">
+                        <img src="project1.png" class="w-full h-full object-cover opacity-40 group-hover:scale-110 transition duration-1000" alt="Library System">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        <span class="absolute bottom-6 left-6 px-4 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] mono uppercase tracking-widest text-white border border-white/10">Full Stack / Security</span>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-white mb-4">Library Automation System</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">A PHP-based secure platform with bKash/Rocket API integration, featuring robust authentication and security protocols.</p>
+                        <div class="flex space-x-4">
+                            <i class="fab fa-php text-2xl text-gray-500"></i>
+                            <i class="fab fa-js text-2xl text-gray-500"></i>
+                            <i class="fas fa-database text-2xl text-gray-500"></i>
+                        </div>
+                    </div>
                 </div>
-                
-        <div>
-            <p><span class="accent-text">Email:</span> omarjaki5254@gmail.com</p>
-            <p><span class="accent-text">Phone:</span> +8801730987887</p>
-            <p><span class="accent-text">Address:</span> Purbadhala, Netrokona</p>
-
-            <div class="flex space-x-5 text-3xl mt-6">
-                <a href="https://www.facebook.com/0xm4r" class="accent-text hover:text-white"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instragram.com/omar_faruk_jaki" class="accent-text hover:text-white"><i class="fab fa-instagram"></i></a>
-                <a href="http://www.linkedin.com/in/omarjaki" class="accent-text hover:text-white"><i class="fab fa-linkedin"></i></a>
-                <a href="#" class="accent-text hover:text-white"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://github.com/talukderomarfaruk" class="accent-text hover:text-white"><i class="fab fa-github"></i></a>
+                <div class="glass rounded-3xl overflow-hidden group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-64 bg-zinc-900 relative">
+                        <img src="project2.png" class="w-full h-full object-cover opacity-40 group-hover:scale-110 transition duration-1000" alt="EEG Thesis">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        <span class="absolute bottom-6 left-6 px-4 py-1 bg-[#00e0ff]/20 backdrop-blur-md rounded-full text-[10px] mono uppercase tracking-widest text-[#00e0ff] border border-[#00e0ff]/30">AI / Research / Python</span>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-white mb-4">EEG Seizure Detection</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">B.Sc Thesis focusing on detecting epileptic seizures from EEG signals using deep learning and signal visualization.</p>
+                        <div class="flex space-x-4">
+                            <i class="fab fa-python text-2xl text-gray-500"></i>
+                            <i class="fas fa-microchip text-2xl text-gray-500"></i>
+                            <i class="fas fa-chart-line text-2xl text-gray-500"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section id="contact" class="max-w-4xl mx-auto py-32 px-6">
+            <div class="glass p-12 rounded-[3rem] text-center border-white/5 relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-[#00e0ff]/10 blur-[80px]"></div>
+                <h2 class="text-4xl font-black text-white mb-6">HAVE A CHALLENGE?</h2>
+                <p class="text-gray-400 mb-10 max-w-lg mx-auto italic text-lg">"Let's build something secure and intelligent together."</p>
+                
+                <div class="grid md:grid-cols-2 gap-8 text-left mb-12">
+                    <div class="p-6 bg-white/5 rounded-2xl border border-white/5">
+                        <h5 class="text-[#00e0ff] mono text-xs uppercase mb-2">Direct Mail</h5>
+                        <p class="text-white font-bold">omarjaki5254@gmail.com</p>
+                    </div>
+                    <div class="p-6 bg-white/5 rounded-2xl border border-white/5">
+                        <h5 class="text-[#00FF41] mono text-xs uppercase mb-2">Location</h5>
+                        <p class="text-white font-bold">Purbadhala, Netrokona, BD</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center space-x-8 text-3xl">
+                    <a href="https://github.com/talukderomarfaruk" class="text-gray-500 hover:text-white transition"><i class="fab fa-github"></i></a>
+                    <a href="http://www.linkedin.com/in/omarjaki" class="text-gray-500 hover:text-[#00e0ff] transition"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://facebook.com/0xm4r" class="text-gray-500 hover:text-[#00e0ff] transition"><i class="fab fa-facebook"></i></a>
+                </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="text-center py-6 border-t border-gray-800 text-sm text-gray-500">
-        &copy; 2024 Talukder Omar Faruk. All Rights Reserved.
+    <footer class="py-12 text-center text-gray-600 mono text-[10px] tracking-widest uppercase">
+        Designed for High Performance & Intelligence &copy; 2026 OMAR_FARUK
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        const textElement = document.getElementById('typing-text');
-        const roles = ["Teacher >_","Cyber Security Enthusiast >_", "Network Security Analyst >_", "Ethical Hacker >_"];
-        let roleIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typingSpeed = 100;
+        AOS.init({ duration: 1000, once: true });
 
-        function type() {
-            const currentText = roles[roleIndex];
-            
-            if (isDeleting) {
-                textElement.textContent = currentText.substring(0, charIndex--);
-            } else {
-                textElement.textContent = currentText.substring(0, charIndex++);
+        // Matrix Background Effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function draw() {
+            ctx.fillStyle = "rgba(5, 5, 5, 0.1)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00FF41";
+            ctx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
             }
-
-            if (!isDeleting && charIndex === currentText.length + 1) {
-                // Pause at the end
-                typingSpeed = 1500;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                roleIndex = (roleIndex + 1) % roles.length; // Loop to the next role
-                typingSpeed = 100;
-            } else {
-                typingSpeed = isDeleting ? 50 : 100;
-            }
-
-            setTimeout(type, typingSpeed);
         }
+        setInterval(draw, 50);
 
-        document.addEventListener('DOMContentLoaded', type);
+        // Advanced Typing Effect
+        const roles = [
+            "AI & ML Researcher",
+            "Certified Ethical Hacker",
+            "ICT Lecturer & Teacher",
+            "Full-Stack Security Developer"
+        ];
+        let rIdx = 0, cIdx = 0, isDel = false;
+        const target = document.getElementById('typing-text');
+
+        function typeEffect() {
+            const current = roles[rIdx];
+            target.textContent = isDel ? current.substring(0, cIdx--) : current.substring(0, cIdx++);
+            
+            if (!isDel && cIdx === current.length + 1) {
+                isDel = true;
+                setTimeout(typeEffect, 2000);
+            } else if (isDel && cIdx === 0) {
+                isDel = false;
+                rIdx = (rIdx + 1) % roles.length;
+                setTimeout(typeEffect, 500);
+            } else {
+                setTimeout(typeEffect, isDel ? 60 : 120);
+            }
+        }
+        typeEffect();
     </script>
 </body>
 </html>
