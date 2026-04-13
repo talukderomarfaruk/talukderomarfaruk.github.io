@@ -6,7 +6,7 @@
     <title>Talukder Omar Faruk | AI & Cyber Security</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
@@ -15,6 +15,7 @@
             --neon-green: #00FF41;
             --ai-blue: #00e0ff;
             --bg-black: #050505;
+            --kali-blue: #268bd2;
         }
         
         body {
@@ -22,66 +23,31 @@
             color: #e5e5e5;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            cursor: none; /* Hide default cursor for custom cursor */
+            cursor: crosshair;
         }
         
         .mono { font-family: 'Fira Code', monospace; }
         
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #050505;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1a1a1a;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--ai-blue);
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--ai-blue); }
+
+        .cursor-dragon {
+            position: fixed; top: 0; left: 0;
+            pointer-events: none; z-index: 9999;
+            text-shadow: 0 0 15px var(--neon-green);
+            will-change: transform;
         }
 
-        /* Custom Hacker Cursor */
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--ai-blue);
-            border-radius: 50%;
-            position: fixed;
-            top: 0; left: 0;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px var(--ai-blue), 0 0 20px var(--ai-blue);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-        }
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(0, 224, 255, 0.5);
-            border-radius: 50%;
-            position: fixed;
-            top: 0; left: 0;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: 0.1s ease-out;
-        }
-
-        /* Background Matrix Effect */
         #matrix {
-            position: fixed;
-            top: 0; left: 0;
-            z-index: -1;
-            opacity: 0.08;
+            position: fixed; top: 0; left: 0;
+            z-index: -1; opacity: 0.06;
         }
 
-        /* Glassmorphism Styles */
         .glass {
             background: rgba(15, 15, 15, 0.6);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -91,30 +57,37 @@
             box-shadow: 0 15px 35px rgba(0, 224, 255, 0.1);
         }
 
-        /* Live Clock Widget */
+        /* Terminal Specific Styles */
+        .terminal-window {
+            background-color: #0c0c0c;
+            border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0, 255, 65, 0.1);
+        }
+        .terminal-header {
+            background: #1a1a1a; border-bottom: 1px solid #333;
+        }
+        .terminal-input-line input:focus { outline: none; }
+        .blink-cursor { animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
         .system-widget {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
+            position: fixed; bottom: 30px; right: 30px;
             background: rgba(0, 0, 0, 0.8);
             border: 1px solid var(--neon-green);
-            padding: 10px 20px;
-            border-radius: 8px;
-            z-index: 50;
-            backdrop-filter: blur(5px);
+            padding: 10px 20px; border-radius: 8px;
+            z-index: 50; backdrop-filter: blur(5px);
             box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
         }
 
         .glow-text { text-shadow: 0 0 15px rgba(0, 224, 255, 0.6); }
-        .hero-gradient {
-            background: radial-gradient(circle at center, rgba(0, 224, 255, 0.08) 0%, transparent 60%);
-        }
+        .hero-gradient { background: radial-gradient(circle at center, rgba(0, 224, 255, 0.08) 0%, transparent 60%); }
     </style>
 </head>
 <body class="antialiased">
 
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-outline" id="cursor-outline"></div>
+    <div class="cursor-dragon" id="cursor-dragon">
+        <i class="fas fa-dragon text-[#00FF41] text-2xl"></i>
+    </div>
 
     <canvas id="matrix"></canvas>
 
@@ -128,17 +101,17 @@
         </div>
     </div>
 
-    <header class="fixed w-full z-50 bg-black/60 backdrop-blur-lg border-b border-white/5">
+    <header class="fixed w-full z-50 bg-black/70 backdrop-blur-lg border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl font-bold mono tracking-tighter text-[#00e0ff] hover:text-white transition duration-300">
                 <span class="text-white">&lt;</span> OMAR.FARUK <span class="text-white">/&gt;</span>
             </h1>
-            <nav class="hidden md:flex space-x-8 text-[11px] font-bold uppercase tracking-[0.2em]">
+            <nav class="hidden md:flex space-x-6 text-[10px] font-bold uppercase tracking-[0.2em]">
                 <a href="#hero" class="hover:text-[#00e0ff] transition hover-target">Home</a>
                 <a href="#about" class="hover:text-[#00e0ff] transition hover-target">Who_Am_I</a>
-                <a href="#stats" class="hover:text-[#00e0ff] transition hover-target">Metrics</a>
+                <a href="#experience" class="hover:text-[#00e0ff] transition hover-target">Timeline</a>
+                <a href="#terminal-sec" class="hover:text-[#00FF41] transition hover-target border-b border-[#00FF41]">CLI</a>
                 <a href="#projects" class="hover:text-[#00e0ff] transition hover-target">Projects</a>
-                <a href="#contact" class="hover:text-[#00e0ff] transition hover-target">Contact</a>
             </nav>
             <button class="px-5 py-2 border border-[#00e0ff]/40 text-[#00e0ff] text-xs font-bold rounded hover:bg-[#00e0ff] hover:text-black hover:shadow-[0_0_15px_rgba(0,224,255,0.5)] transition duration-500 hover-target">
                 RESUME.PDF
@@ -157,36 +130,32 @@
                 <h2 class="text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter">
                     TALUKDER <br> <span class="glow-text text-[#00e0ff]">OMAR FARUK</span>
                 </h2>
-                <h3 id="typing-text" class="text-xl md:text-2xl mono text-gray-300 h-8 font-light"></h3>
+                <h3 id="typing-text" class="text-xl md:text-2xl mono text-gray-300 h-8 font-light mb-8"></h3>
                 
                 <div class="mt-14 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 justify-center">
-                    <a href="#projects" class="px-10 py-4 bg-[#00e0ff] text-black font-black rounded-full hover:shadow-[0_0_30px_rgba(0,224,255,0.6)] transition transform hover:scale-105 hover-target tracking-wide text-sm">EXPLORE PROJECTS</a>
-                    <a href="#contact" class="px-10 py-4 border border-white/20 hover:border-[#00e0ff] text-white hover:text-[#00e0ff] transition rounded-full font-bold hover-target tracking-wide text-sm">GET IN TOUCH</a>
+                    <a href="#terminal-sec" class="px-10 py-4 bg-[#00FF41] text-black font-black rounded-full hover:shadow-[0_0_30px_rgba(0,255,65,0.6)] transition transform hover:scale-105 tracking-wide text-sm mono">OPEN_TERMINAL</a>
+                    <a href="#projects" class="px-10 py-4 border border-white/20 hover:border-[#00e0ff] text-white hover:text-[#00e0ff] transition rounded-full font-bold tracking-wide text-sm">EXPLORE PROJECTS</a>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="max-w-7xl mx-auto py-32 px-6">
+        <section id="about" class="max-w-7xl mx-auto py-24 px-6">
             <div class="grid md:grid-cols-2 gap-16 items-center">
                 <div data-aos="fade-right">
                     <h2 class="text-3xl font-bold mb-6 text-white mono">&gt; Who_Am_I?</h2>
                     <p class="text-lg text-gray-400 leading-relaxed mb-8">
-                        I am a <span class="text-white font-bold border-b border-[#00e0ff]">Cyber Security Specialist</span> by day and an <span class="text-[#00e0ff] font-bold">AI Researcher</span> by night. Currently serving as a Teacher at <span class="italic text-gray-300">Nasima Kadir Molla High School</span>, I dedicate my expertise to securing digital assets and researching EEG signal processing for healthcare.
+                        I am a <span class="text-white font-bold border-b border-[#00e0ff]">Cyber Security Specialist & Web Developer</span> by day and an <span class="text-[#00e0ff] font-bold">AI Researcher</span> by night. Currently serving as a Teacher, I dedicate my expertise to securing digital assets and researching EEG signal processing for healthcare.
                     </p>
                     <div class="space-y-6">
                         <div class="flex items-center space-x-5 glass p-4 rounded-xl border-l-2 border-l-[#00e0ff]">
-                            <div class="w-12 h-12 rounded-full bg-[#00e0ff]/10 flex items-center justify-center text-[#00e0ff]">
-                                <i class="fas fa-brain text-xl"></i>
-                            </div>
+                            <div class="w-12 h-12 rounded-full bg-[#00e0ff]/10 flex items-center justify-center text-[#00e0ff]"><i class="fas fa-brain text-xl"></i></div>
                             <div>
                                 <h4 class="text-white font-bold tracking-wide">AI Enthusiast</h4>
                                 <p class="text-sm text-gray-500 mt-1">Seizure Detection & Signal Processing</p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-5 glass p-4 rounded-xl border-l-2 border-l-[#00FF41]">
-                            <div class="w-12 h-12 rounded-full bg-[#00FF41]/10 flex items-center justify-center text-[#00FF41]">
-                                <i class="fas fa-user-secret text-xl"></i>
-                            </div>
+                            <div class="w-12 h-12 rounded-full bg-[#00FF41]/10 flex items-center justify-center text-[#00FF41]"><i class="fas fa-user-secret text-xl"></i></div>
                             <div>
                                 <h4 class="text-white font-bold tracking-wide">Ethical Hacker</h4>
                                 <p class="text-sm text-gray-500 mt-1">Certified CEH (Practical) & CNSP</p>
@@ -201,50 +170,94 @@
             </div>
         </section>
 
-        <section id="stats" class="max-w-7xl mx-auto py-20 px-6">
-            <h2 class="text-3xl font-bold mb-12 text-white mono" data-aos="fade-right">&gt; Stats_&_Metrics</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="glass p-10 rounded-3xl border-l-4 border-[#20beff] flex items-center relative overflow-hidden group hover-target" data-aos="zoom-in">
-                    <div class="absolute right-0 top-0 w-32 h-32 bg-[#20beff]/5 rounded-full blur-3xl group-hover:bg-[#20beff]/20 transition duration-500"></div>
-                    <div class="mr-8 relative z-10">
-                        <i class="fab fa-kaggle text-6xl text-[#20beff] group-hover:scale-110 transition duration-300"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <h3 class="text-2xl font-black text-white">Kaggle Researcher</h3>
-                        <p class="text-gray-400 mt-1 mb-5 text-sm">Mastering EEG Seizure Classification</p>
-                        <a href="https://www.kaggle.com/talukderomarfaruk" target="_blank" class="px-5 py-2 bg-[#20beff]/10 text-[#20beff] text-[10px] font-bold rounded uppercase border border-[#20beff]/30 hover:bg-[#20beff] hover:text-black transition tracking-wider">Visit Notebooks</a>
+        <section id="skills" class="max-w-7xl mx-auto py-10 px-6">
+            <h2 class="text-3xl font-bold mb-12 text-white mono text-center" data-aos="fade-up">&gt; Cyber_Arsenal & Tech_Stack</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center group" data-aos="zoom-in"><i class="fab fa-python text-4xl text-gray-500 group-hover:text-[#00e0ff] mb-3"></i><span class="mono text-xs text-gray-400 group-hover:text-white">Python</span></div>
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center group" data-aos="zoom-in"><i class="fab fa-js text-4xl text-gray-500 group-hover:text-yellow-400 mb-3"></i><span class="mono text-xs text-gray-400 group-hover:text-white">JavaScript</span></div>
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center group" data-aos="zoom-in"><i class="fab fa-php text-4xl text-gray-500 group-hover:text-indigo-400 mb-3"></i><span class="mono text-xs text-gray-400 group-hover:text-white">PHP</span></div>
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center group" data-aos="zoom-in"><i class="fab fa-linux text-4xl text-gray-500 group-hover:text-white mb-3"></i><span class="mono text-xs text-gray-400 group-hover:text-white">Kali Linux</span></div>
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center group" data-aos="zoom-in"><i class="fas fa-network-wired text-4xl text-gray-500 group-hover:text-[#00FF41] mb-3"></i><span class="mono text-xs text-gray-400 group-hover:text-white">Networking</span></div>
+                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center group" data-aos="zoom-in"><i class="fas fa-database text-4xl text-gray-500 group-hover:text-blue-400 mb-3"></i><span class="mono text-xs text-gray-400 group-hover:text-white">SQL/NoSQL</span></div>
+            </div>
+        </section>
+
+        <section id="experience" class="max-w-5xl mx-auto py-24 px-6">
+            <h2 class="text-3xl font-bold mb-16 text-white mono text-center" data-aos="fade-up">&gt; Career_Execution_Flow</h2>
+            
+            <div class="relative border-l-2 border-[#00e0ff]/30 ml-3 md:ml-6 space-y-12">
+                <div class="relative pl-8 md:pl-10" data-aos="fade-up">
+                    <div class="absolute -left-[11px] top-1 w-5 h-5 bg-[#00FF41] rounded-full border-4 border-black animate-pulse"></div>
+                    <div class="glass p-8 rounded-2xl hover:border-[#00FF41]/50 transition duration-300">
+                        <span class="text-[#00FF41] mono text-xs font-bold px-3 py-1 bg-[#00FF41]/10 rounded-full mb-4 inline-block">Present</span>
+                        <h3 class="text-2xl font-bold text-white mb-2">ICT Lecturer & Teacher</h3>
+                        <h4 class="text-gray-400 font-bold mb-4"><i class="fas fa-building mr-2"></i>Nasima Kadir Molla High School</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Educating the next generation of students in Information and Communication Technology, while continuously developing my own skills in cyber security and full-stack development.</p>
                     </div>
                 </div>
-                <div class="glass p-10 rounded-3xl border-l-4 border-[#00FF41] flex items-center relative overflow-hidden group hover-target" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="absolute right-0 top-0 w-32 h-32 bg-[#00FF41]/5 rounded-full blur-3xl group-hover:bg-[#00FF41]/20 transition duration-500"></div>
-                    <div class="mr-8 relative z-10">
-                        <i class="fas fa-shield-virus text-6xl text-[#00FF41] group-hover:scale-110 transition duration-300"></i>
+
+                <div class="relative pl-8 md:pl-10" data-aos="fade-up">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 bg-[#00e0ff] rounded-full border-4 border-black"></div>
+                    <div class="glass p-8 rounded-2xl hover:border-[#00e0ff]/50 transition duration-300">
+                        <span class="text-[#00e0ff] mono text-xs font-bold px-3 py-1 bg-[#00e0ff]/10 rounded-full mb-4 inline-block">Recent</span>
+                        <h3 class="text-2xl font-bold text-white mb-2">Certified Security Professional</h3>
+                        <h4 class="text-gray-400 font-bold mb-4"><i class="fas fa-shield-alt mr-2"></i>Global Platforms</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Achieved Top 3% Global Rank on TryHackMe. Successfully completed CEH (Practical) & CNSP certifications, proving practical penetration testing and network security skills.</p>
                     </div>
-                    <div class="w-full relative z-10">
-                        <h3 class="text-2xl font-black text-white">Cyber Rank</h3>
-                        <p class="text-gray-400 mt-1 text-sm flex justify-between"><span>TryHackMe</span> <span class="text-[#00FF41]">Top 3% Global</span></p>
-                        <div class="w-full bg-white/5 h-2 rounded-full mt-4 overflow-hidden border border-white/5">
-                            <div class="bg-gradient-to-r from-green-600 to-[#00FF41] h-full relative" style="width: 97%">
-                                <div class="absolute right-0 top-0 bottom-0 w-4 bg-white/50 blur-sm animate-pulse"></div>
-                            </div>
-                        </div>
+                </div>
+
+                <div class="relative pl-8 md:pl-10" data-aos="fade-up">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 bg-gray-500 rounded-full border-4 border-black"></div>
+                    <div class="glass p-8 rounded-2xl hover:border-gray-400/50 transition duration-300">
+                        <span class="text-gray-400 mono text-xs font-bold px-3 py-1 bg-gray-500/10 rounded-full mb-4 inline-block">Past</span>
+                        <h3 class="text-2xl font-bold text-white mb-2">B.Sc. in Computer Science (Thesis)</h3>
+                        <h4 class="text-gray-400 font-bold mb-4"><i class="fas fa-graduation-cap mr-2"></i>AI & ML Research</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Conducted deep research on healthcare AI, specifically "EEG Seizure Detection" using Python and Deep Learning, successfully graduating with a major in Computer Science.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="projects" class="max-w-7xl mx-auto py-32 px-6">
-            <div class="mb-16 flex flex-col md:flex-row md:items-end justify-between">
-                <div>
-                    <h2 class="text-4xl font-black text-white tracking-tighter">PROJECT_VAULT</h2>
-                    <div class="w-20 h-1 bg-[#00e0ff] mt-4 shadow-[0_0_10px_#00e0ff]"></div>
-                </div>
-                <p class="text-gray-500 mono text-sm mt-4 md:mt-0">Displaying top classified operations...</p>
+        <section id="terminal-sec" class="max-w-4xl mx-auto py-24 px-6">
+            <div class="mb-10 text-center" data-aos="fade-up">
+                <h2 class="text-3xl font-black text-white tracking-tighter">INTERACTIVE_CLI</h2>
+                <p class="text-gray-500 mono text-sm mt-2">Access granted. Try typing 'whoami' or 'learn'</p>
             </div>
+
+            <div class="terminal-window rounded-xl overflow-hidden shadow-2xl" data-aos="zoom-in">
+                <div class="terminal-header px-4 py-3 flex items-center">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="flex-1 text-center text-gray-400 mono text-xs">jaki@kali: ~</div>
+                </div>
+                
+                <div class="p-4 h-80 overflow-y-auto mono text-sm" id="terminal-body">
+                    <div class="mb-4 text-gray-300">
+                        Kali GNU/Linux Rolling kali-rolling<br>
+                        Type 'help' to see a list of available commands.
+                    </div>
+                    
+                    <div id="terminal-output"></div>
+
+                    <div class="flex items-center terminal-input-line mt-2">
+                        <div class="text-[#268bd2] font-bold mr-2 whitespace-nowrap">
+                            <span class="text-[#00FF41]">┌──(jaki㉿kali)-[~]</span><br>
+                            <span class="text-[#00FF41]">└─$</span>
+                        </div>
+                        <input type="text" id="terminal-input" class="w-full bg-transparent text-white border-none focus:ring-0 p-0 mt-4 font-mono outline-none" autocomplete="off" spellcheck="false" autofocus>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="max-w-7xl mx-auto py-24 px-6">
+            <h2 class="text-4xl font-black text-white tracking-tighter mb-16">PROJECT_VAULT</h2>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                
-                <div class="glass rounded-3xl overflow-hidden group hover-target" data-aos="fade-up">
+                <div class="glass rounded-3xl overflow-hidden group" data-aos="fade-up">
                     <div class="h-56 bg-zinc-900 relative overflow-hidden">
                         <img src="project1.png" class="w-full h-full object-cover opacity-40 group-hover:scale-110 group-hover:opacity-60 transition duration-1000" alt="Library System">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
@@ -252,16 +265,11 @@
                     </div>
                     <div class="p-8">
                         <h3 class="text-xl font-bold text-white mb-3 group-hover:text-[#00e0ff] transition">Library Automation</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-6">A PHP-based secure platform with bKash/Rocket API integration, featuring robust authentication and security protocols.</p>
-                        <div class="flex space-x-4 border-t border-white/5 pt-4">
-                            <i class="fab fa-php text-xl text-gray-500 hover:text-white transition cursor-help" title="PHP"></i>
-                            <i class="fab fa-js text-xl text-gray-500 hover:text-white transition cursor-help" title="JavaScript"></i>
-                            <i class="fas fa-database text-xl text-gray-500 hover:text-white transition cursor-help" title="MySQL"></i>
-                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">A PHP-based secure platform with bKash API integration.</p>
                     </div>
                 </div>
 
-                <div class="glass rounded-3xl overflow-hidden group hover-target" data-aos="fade-up" data-aos-delay="150">
+                <div class="glass rounded-3xl overflow-hidden group" data-aos="fade-up" data-aos-delay="150">
                     <div class="h-56 bg-zinc-900 relative overflow-hidden">
                         <img src="project2.png" class="w-full h-full object-cover opacity-40 group-hover:scale-110 group-hover:opacity-60 transition duration-1000" alt="EEG Thesis">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
@@ -269,18 +277,12 @@
                     </div>
                     <div class="p-8">
                         <h3 class="text-xl font-bold text-white mb-3 group-hover:text-[#00e0ff] transition">EEG Seizure Detection</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-6">B.Sc Thesis focusing on detecting epileptic seizures from EEG signals using deep learning and signal visualization.</p>
-                        <div class="flex space-x-4 border-t border-white/5 pt-4">
-                            <i class="fab fa-python text-xl text-gray-500 hover:text-[#00e0ff] transition" title="Python"></i>
-                            <i class="fas fa-brain text-xl text-gray-500 hover:text-[#00e0ff] transition" title="Deep Learning"></i>
-                            <i class="fas fa-chart-line text-xl text-gray-500 hover:text-[#00e0ff] transition" title="Data Analysis"></i>
-                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">Detecting epileptic seizures from EEG signals using Python Deep Learning.</p>
                     </div>
                 </div>
 
-                <div class="glass rounded-3xl overflow-hidden group hover-target relative" data-aos="fade-up" data-aos-delay="300">
+                <div class="glass rounded-3xl overflow-hidden group relative" data-aos="fade-up" data-aos-delay="300">
                     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#00FF41] to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
-                    
                     <div class="h-56 bg-zinc-900 relative overflow-hidden">
                         <img src="Screenshot From 2026-04-13 19-34-40.png" class="w-full h-full object-cover opacity-40 group-hover:scale-110 group-hover:opacity-60 transition duration-1000" alt="Mini-SIEM Tool">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
@@ -288,18 +290,9 @@
                     </div>
                     <div class="p-8">
                         <h3 class="text-xl font-bold text-white mb-3 group-hover:text-[#00FF41] transition">Mini-SIEM Dashboard</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-6">A real-time Security Information & Event Management tool built to monitor system resources, network ports, and detect SSH brute-force attacks.</p>
-                        <div class="flex justify-between items-center border-t border-white/5 pt-4">
-                            <div class="flex space-x-4">
-                                <i class="fab fa-python text-xl text-gray-500 hover:text-[#00FF41] transition" title="Python"></i>
-                                <i class="fas fa-shield-alt text-xl text-gray-500 hover:text-[#00FF41] transition" title="Security"></i>
-                                <i class="fas fa-network-wired text-xl text-gray-500 hover:text-[#00FF41] transition" title="Networking"></i>
-                            </div>
-                            <a href="#" class="text-[#00FF41] text-xs hover:underline mono">View Logic ></a>
-                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">Real-time Security Information tool to monitor system resources & attacks.</p>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -311,27 +304,10 @@
                 <h2 class="text-4xl font-black text-white mb-6 relative z-10">HAVE A CHALLENGE?</h2>
                 <p class="text-gray-400 mb-10 max-w-lg mx-auto italic text-lg relative z-10">"Let's build something secure and intelligent together."</p>
                 
-                <div class="grid md:grid-cols-2 gap-8 text-left mb-12 relative z-10">
-                    <div class="p-6 bg-white/5 rounded-2xl border border-white/5 hover:border-[#00e0ff]/50 transition duration-300 hover-target">
-                        <div class="flex items-center mb-3">
-                            <i class="fas fa-envelope text-[#00e0ff] mr-3"></i>
-                            <h5 class="text-[#00e0ff] mono text-xs uppercase">Direct Mail</h5>
-                        </div>
-                        <p class="text-white font-bold text-sm md:text-base break-words">omarjaki5254@gmail.com</p>
-                    </div>
-                    <div class="p-6 bg-white/5 rounded-2xl border border-white/5 hover:border-[#00FF41]/50 transition duration-300 hover-target">
-                        <div class="flex items-center mb-3">
-                            <i class="fas fa-map-marker-alt text-[#00FF41] mr-3"></i>
-                            <h5 class="text-[#00FF41] mono text-xs uppercase">Location</h5>
-                        </div>
-                        <p class="text-white font-bold text-sm md:text-base">Purbadhala, Netrokona, BD</p>
-                    </div>
-                </div>
-
                 <div class="flex justify-center space-x-8 text-3xl relative z-10">
-                    <a href="https://github.com/talukderomarfaruk" class="text-gray-500 hover:text-white hover:scale-125 transition transform hover-target"><i class="fab fa-github"></i></a>
-                    <a href="http://www.linkedin.com/in/omarjaki" class="text-gray-500 hover:text-[#00e0ff] hover:scale-125 transition transform hover-target"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://facebook.com/0xm4r" class="text-gray-500 hover:text-[#00FF41] hover:scale-125 transition transform hover-target"><i class="fab fa-facebook"></i></a>
+                    <a href="https://github.com/talukderomarfaruk" class="text-gray-500 hover:text-white hover:scale-125 transition transform"><i class="fab fa-github"></i></a>
+                    <a href="http://www.linkedin.com/in/omarjaki" class="text-gray-500 hover:text-[#00e0ff] hover:scale-125 transition transform"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://facebook.com/0xm4r" class="text-gray-500 hover:text-[#00FF41] hover:scale-125 transition transform"><i class="fab fa-facebook"></i></a>
                 </div>
             </div>
         </section>
@@ -345,68 +321,114 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize Animations
         AOS.init({ duration: 1000, once: true, offset: 50 });
 
-        // Custom Cursor Logic
-        const cursorDot = document.getElementById('cursor-dot');
-        const cursorOutline = document.getElementById('cursor-outline');
-        const hoverTargets = document.querySelectorAll('a, button, .hover-target');
+        // --- Custom Mini Dragon Cursor Logic ---
+        const cursorDragon = document.getElementById('cursor-dragon');
+        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+        let dragonX = window.innerWidth / 2, dragonY = window.innerHeight / 2;
 
-        window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            
-            // Slight delay for outline for smooth trailing effect
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
-        });
+        window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
 
-        // Hover effects for custom cursor
-        hoverTargets.forEach(target => {
-            target.addEventListener('mouseenter', () => {
-                cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                cursorOutline.style.borderColor = 'var(--neon-green)';
-                cursorDot.style.backgroundColor = 'var(--neon-green)';
-            });
-            target.addEventListener('mouseleave', () => {
-                cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
-                cursorOutline.style.borderColor = 'rgba(0, 224, 255, 0.5)';
-                cursorDot.style.backgroundColor = 'var(--ai-blue)';
-            });
-        });
+        function animateDragon() {
+            let dx = mouseX - dragonX; let dy = mouseY - dragonY;
+            dragonX += dx * 0.12; dragonY += dy * 0.12;
+            let scaleX = dx < 0 ? -1 : 1;
+            cursorDragon.style.transform = `translate(${dragonX - 15}px, ${dragonY - 15}px) scaleX(${scaleX})`;
+            requestAnimationFrame(animateDragon);
+        }
+        animateDragon();
 
-        // Live Cyber Clock Logic
+        // --- Live Cyber Clock Logic ---
         function updateClock() {
             const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('live-clock').textContent = `${hours}:${minutes}:${seconds} BD_TIME`;
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('live-clock').textContent = `${timeString} BD_TIME`;
         }
-        setInterval(updateClock, 1000);
-        updateClock(); // Initial call
+        setInterval(updateClock, 1000); updateClock();
 
-        // Matrix Background Effect (Optimized)
+        // --- Interactive Terminal Logic ---
+        const terminalInput = document.getElementById('terminal-input');
+        const terminalOutput = document.getElementById('terminal-output');
+        const terminalBody = document.getElementById('terminal-body');
+
+        // Always keep focus on input when clicking terminal
+        terminalBody.addEventListener('click', () => terminalInput.focus());
+
+        terminalInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const cmd = this.value.trim().toLowerCase();
+                this.value = '';
+                processCommand(cmd);
+            }
+        });
+
+        function processCommand(cmd) {
+            if (cmd === 'clear') { terminalOutput.innerHTML = ''; return; }
+            if (cmd === '') return;
+
+            let response = '';
+            // Terminal prompt match exactly user's Kali CLI
+            const promptHTML = `<div class="mt-4"><span class="text-[#00FF41]">┌──(jaki㉿kali)-[~]</span><br><span class="text-[#00FF41]">└─$</span> <span class="text-white">${cmd}</span></div>`;
+
+            switch(cmd) {
+                case 'help':
+                    response = `Available commands:<br>
+                    &nbsp;&nbsp;<span class="text-[#00e0ff]">whoami</span> &nbsp;- Display user profile<br>
+                    &nbsp;&nbsp;<span class="text-[#00e0ff]">learn</span> &nbsp;&nbsp;- Learn basic Linux commands<br>
+                    &nbsp;&nbsp;<span class="text-[#00e0ff]">skills</span> &nbsp;- View tech stack<br>
+                    &nbsp;&nbsp;<span class="text-[#00e0ff]">clear</span> &nbsp;&nbsp;- Clear terminal screen<br>
+                    &nbsp;&nbsp;<span class="text-[#00e0ff]">sudo</span> &nbsp;&nbsp;&nbsp;- Execute command as superuser`;
+                    break;
+                case 'whoami':
+                    response = `<div class="border-l-2 border-[#00FF41] pl-3">
+                        <span class="font-bold text-white">Talukder Omar Faruk</span><br>
+                        Role: Cyber Security Specialist & AI Researcher<br>
+                        Location: Bangladesh<br>
+                        Status: Active
+                    </div>`;
+                    break;
+                case 'learn':
+                    response = `<span class="text-yellow-400 font-bold">--- Basic Linux Commands Crash Course ---</span><br>
+                    <span class="text-[#00e0ff]">pwd</span> &nbsp;&nbsp;: Print working directory (Where am I?)<br>
+                    <span class="text-[#00e0ff]">ls</span> &nbsp;&nbsp;&nbsp;: List directory contents (What files are here?)<br>
+                    <span class="text-[#00e0ff]">cd</span> &nbsp;&nbsp;&nbsp;: Change directory (Move to another folder)<br>
+                    <span class="text-[#00e0ff]">cat</span> &nbsp;&nbsp;: Read data from a file and output it<br>
+                    <span class="text-[#00e0ff]">grep</span> &nbsp;: Search for a specific pattern within text<br>
+                    <span class="text-[#00e0ff]">chmod</span> : Change file access permissions<br>
+                    <span class="text-gray-500 italic">Try searching Google for "Linux command cheat sheet" for more!</span>`;
+                    break;
+                case 'skills':
+                    response = `<span class="text-green-400">[+]</span> Python, JavaScript, PHP<br>
+                    <span class="text-green-400">[+]</span> Kali Linux, Bash Scripting<br>
+                    <span class="text-green-400">[+]</span> Network Security, Penetration Testing<br>
+                    <span class="text-green-400">[+]</span> AI & Machine Learning`;
+                    break;
+                case 'sudo':
+                    response = `<span class="text-red-500 font-bold">jaki is not in the sudoers file. This incident will be reported to the cyber police.</span>`;
+                    break;
+                default:
+                    response = `bash: ${cmd}: command not found. Type 'help' for available commands.`;
+            }
+
+            const outputNode = document.createElement('div');
+            outputNode.innerHTML = promptHTML + `<div class="text-gray-300 mt-1">${response}</div>`;
+            terminalOutput.appendChild(outputNode);
+            
+            // Auto scroll to bottom
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+        }
+
+        // --- Matrix Effect ---
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const letters = "01"; const fontSize = 14;
+        const columns = canvas.width / fontSize; const drops = Array(Math.floor(columns)).fill(1);
 
         function draw() {
-            ctx.fillStyle = "rgba(5, 5, 5, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#00FF41";
-            ctx.font = fontSize + "px monospace";
+            ctx.fillStyle = "rgba(5, 5, 5, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00FF41"; ctx.font = fontSize + "px monospace";
             for (let i = 0; i < drops.length; i++) {
                 const text = letters.charAt(Math.floor(Math.random() * letters.length));
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -414,40 +436,21 @@
                 drops[i]++;
             }
         }
-        setInterval(draw, 40);
+        setInterval(draw, 50);
 
-        // Advanced Typing Effect
-        const roles = [
-            "AI & ML Researcher",
-            "Certified Ethical Hacker",
-            "ICT Lecturer & Teacher",
-            "Cyber Security Specialist"
-        ];
-        let rIdx = 0, cIdx = 0, isDel = false;
-        const target = document.getElementById('typing-text');
-
+        // --- Typing Effect ---
+        const roles = ["AI & ML Researcher", "Certified Ethical Hacker", "Full-Stack Web Developer", "Cyber Security Specialist"];
+        let rIdx = 0, cIdx = 0, isDel = false; const target = document.getElementById('typing-text');
         function typeEffect() {
             const current = roles[rIdx];
             target.innerHTML = (isDel ? current.substring(0, cIdx--) : current.substring(0, cIdx++)) + "<span class='animate-pulse text-[#00e0ff]'>_</span>";
-            
-            if (!isDel && cIdx === current.length + 1) {
-                isDel = true;
-                setTimeout(typeEffect, 2000);
-            } else if (isDel && cIdx === 0) {
-                isDel = false;
-                rIdx = (rIdx + 1) % roles.length;
-                setTimeout(typeEffect, 500);
-            } else {
-                setTimeout(typeEffect, isDel ? 50 : 100);
-            }
+            if (!isDel && cIdx === current.length + 1) { isDel = true; setTimeout(typeEffect, 2000); }
+            else if (isDel && cIdx === 0) { isDel = false; rIdx = (rIdx + 1) % roles.length; setTimeout(typeEffect, 500); }
+            else { setTimeout(typeEffect, isDel ? 50 : 100); }
         }
         typeEffect();
 
-        // Handle window resize for canvas
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
     </script>
 </body>
 </html>
