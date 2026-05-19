@@ -4,478 +4,1218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Talukder Omar Faruk | AI & Cyber Security</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <meta name="description" content="AI Researcher, Certified Ethical Hacker, and Full-Stack Developer based in Bangladesh.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
     <style>
+        /* ============ CSS VARIABLES ============ */
         :root {
-            --neon-green: #00FF41;
-            --ai-blue: #00e0ff;
-            --bg-black: #050505;
+            --cyan: #00e5ff;
+            --green: #00ff87;
+            --purple: #7c3aed;
+            --bg: #030509;
+            --bg2: #06080f;
+            --surface: rgba(255,255,255,0.04);
+            --surface-hover: rgba(255,255,255,0.07);
+            --border: rgba(255,255,255,0.07);
+            --border-glow: rgba(0,229,255,0.35);
+            --text: #e2e8f0;
+            --text-muted: #64748b;
+            --font-display: 'Syne', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-body: 'Outfit', sans-serif;
         }
-        
+
+        /* ============ RESET & BASE ============ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+
         body {
-            background-color: var(--bg-black);
-            color: #e5e5e5;
-            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
             overflow-x: hidden;
-            cursor: none; /* Hide default cursor for the snake */
+            cursor: none;
+            -webkit-font-smoothing: antialiased;
         }
-        
-        .mono { font-family: 'Fira Code', monospace; }
-        
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--ai-blue); }
 
-        /* MULTI-PART CYBER SNAKE CSS */
-        .snake-part {
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
+        ::selection { background: rgba(0,229,255,0.25); color: #fff; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(var(--cyan), var(--green)); border-radius: 99px; }
+
+        /* ============ SCROLL PROGRESS ============ */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; height: 2px; z-index: 9999;
+            background: linear-gradient(90deg, var(--cyan), var(--green));
+            width: 0%; transition: width 0.1s linear;
+        }
+
+        /* ============ CURSOR ============ */
+        #cursor-ring {
+            position: fixed; width: 36px; height: 36px;
+            border: 1.5px solid var(--cyan); border-radius: 50%;
+            pointer-events: none; z-index: 99999;
             transform: translate(-50%, -50%);
-            will-change: left, top;
+            transition: width 0.3s, height 0.3s, opacity 0.3s, border-color 0.3s;
+            mix-blend-mode: difference;
+        }
+        #cursor-dot {
+            position: fixed; width: 6px; height: 6px;
+            background: var(--cyan); border-radius: 50%;
+            pointer-events: none; z-index: 99999;
+            transform: translate(-50%, -50%);
+        }
+        body.hovering #cursor-ring { width: 60px; height: 60px; border-color: var(--green); }
+
+        /* ============ LOADING SCREEN ============ */
+        #loader {
+            position: fixed; inset: 0; z-index: 100000;
+            background: var(--bg);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #loader.hide { opacity: 0; visibility: hidden; }
+        .loader-bar-wrap {
+            width: 220px; height: 2px; background: rgba(255,255,255,0.06);
+            border-radius: 99px; overflow: hidden; margin-top: 24px;
+        }
+        .loader-bar {
+            height: 100%; width: 0;
+            background: linear-gradient(90deg, var(--cyan), var(--green));
+            border-radius: 99px;
+            animation: loaderFill 1.8s cubic-bezier(0.4,0,0.2,1) forwards;
+        }
+        @keyframes loaderFill { to { width: 100%; } }
+        .loader-text {
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3em;
+            color: var(--text-muted); margin-top: 14px;
+            animation: loaderBlink 1.2s step-end infinite;
+        }
+        @keyframes loaderBlink { 50% { opacity: 0; } }
+
+        /* ============ NOISE TEXTURE ============ */
+        body::before {
+            content: ''; position: fixed; inset: 0; z-index: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.025; pointer-events: none;
         }
 
-        #matrix { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.06; }
-
-        .glass {
-            background: rgba(15, 15, 15, 0.6); backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s;
-        }
-        .glass:hover {
-            border-color: rgba(0, 224, 255, 0.4); transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 224, 255, 0.1);
-        }
-
-        /* Terminal Styles */
-        .terminal-window { background-color: #0c0c0c; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0, 255, 65, 0.1); }
-        .terminal-header { background: #1a1a1a; border-bottom: 1px solid #333; }
-        .terminal-input-line input:focus { outline: none; }
-
-        .system-widget {
-            position: fixed; bottom: 30px; right: 30px; background: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--neon-green); padding: 10px 20px; border-radius: 8px;
-            z-index: 50; backdrop-filter: blur(5px); box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+        /* ============ GRID BACKGROUND ============ */
+        .bg-grid {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background-image:
+                linear-gradient(rgba(0,229,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,229,255,0.025) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
         }
 
-        .glow-text { text-shadow: 0 0 15px rgba(0, 224, 255, 0.6); }
-        .hero-gradient { background: radial-gradient(circle at center, rgba(0, 224, 255, 0.08) 0%, transparent 60%); }
+        /* ============ MATRIX CANVAS ============ */
+        #matrix { position: fixed; top: 0; left: 0; z-index: 0; opacity: 0.04; pointer-events: none; }
+
+        /* ============ GRADIENT ORBS ============ */
+        .orb {
+            position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+            filter: blur(120px); animation: orbFloat 12s ease-in-out infinite alternate;
+        }
+        .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,229,255,0.07) 0%, transparent 70%); top: -100px; right: -100px; }
+        .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,255,135,0.06) 0%, transparent 70%); bottom: 10%; left: -100px; animation-delay: -6s; }
+        .orb-3 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%); top: 40%; left: 40%; animation-delay: -3s; }
+        @keyframes orbFloat { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(40px, 40px) scale(1.05); } }
+
+        /* ============ NAVBAR ============ */
+        #navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 0 2rem;
+            transition: all 0.4s ease;
+        }
+        #navbar.scrolled {
+            background: rgba(3,5,9,0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+        .nav-inner {
+            max-width: 1280px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 70px;
+        }
+        .nav-logo {
+            font-family: var(--font-mono); font-size: 14px; font-weight: 700;
+            color: var(--cyan); text-decoration: none; letter-spacing: 0.05em;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .nav-logo span { color: rgba(255,255,255,0.5); }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a {
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em;
+            text-transform: uppercase; color: var(--text-muted); text-decoration: none;
+            position: relative; transition: color 0.3s;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px;
+            background: var(--cyan); transform: scaleX(0); transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--cyan); }
+        .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+        .nav-cta {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--cyan); border: 1px solid rgba(0,229,255,0.4);
+            padding: 8px 22px; border-radius: 4px; text-decoration: none;
+            background: rgba(0,229,255,0.05);
+            transition: all 0.3s ease; cursor: none;
+        }
+        .nav-cta:hover { background: var(--cyan); color: #000; box-shadow: 0 0 25px rgba(0,229,255,0.4); }
+
+        /* Hamburger */
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; padding: 4px; }
+        .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--text); transition: all 0.3s; border-radius: 99px; }
+        .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed; top: 70px; left: 0; right: 0; z-index: 999;
+            background: rgba(3,5,9,0.97); backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 2rem 2rem;
+            display: none; flex-direction: column; gap: 1rem;
+            transform: translateY(-10px); opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .mobile-menu.open { display: flex; transform: translateY(0); opacity: 1; }
+        .mobile-menu a {
+            font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--text-muted); text-decoration: none;
+            padding: 10px 0; border-bottom: 1px solid var(--border);
+            transition: color 0.3s;
+        }
+        .mobile-menu a:hover { color: var(--cyan); }
+
+        /* ============ SECTIONS ============ */
+        section { position: relative; z-index: 1; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+        .section-header {
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3em;
+            text-transform: uppercase; color: var(--cyan); margin-bottom: 1rem;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .section-header::before { content: '//'; opacity: 0.5; }
+        .section-title {
+            font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800; line-height: 1.1;
+            background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.5));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ============ HERO ============ */
+        #hero {
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 120px 2rem 60px;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em;
+            text-transform: uppercase; color: var(--cyan);
+            border: 1px solid rgba(0,229,255,0.2);
+            background: rgba(0,229,255,0.06);
+            padding: 8px 20px; border-radius: 99px; margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease both;
+        }
+        .hero-badge .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; }
+        @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(0,255,135,0.4);} 50%{box-shadow:0 0 0 6px rgba(0,255,135,0);} }
+
+        .hero-name {
+            font-family: var(--font-display); font-size: clamp(3.5rem, 10vw, 8rem);
+            font-weight: 800; line-height: 0.95; letter-spacing: -0.03em;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        .hero-name .line1 { color: #fff; display: block; }
+        .hero-name .line2 {
+            display: block;
+            background: linear-gradient(135deg, var(--cyan) 0%, var(--green) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 40px rgba(0,229,255,0.3));
+        }
+
+        .hero-role {
+            font-family: var(--font-mono); font-size: clamp(14px, 2vw, 18px);
+            color: var(--text-muted); margin-top: 1.5rem; height: 28px;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+        .hero-role .cursor-blink { color: var(--cyan); animation: blink 0.8s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .hero-desc {
+            max-width: 580px; margin: 1.8rem auto 0;
+            font-size: 16px; color: var(--text-muted); line-height: 1.8;
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+
+        .hero-ctas {
+            display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;
+            margin-top: 3rem;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            padding: 14px 32px; border-radius: 6px; text-decoration: none; cursor: none;
+            background: linear-gradient(135deg, var(--cyan), var(--green));
+            color: #000; transition: all 0.3s ease;
+            box-shadow: 0 0 0 rgba(0,229,255,0);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,229,255,0.4); }
+        .btn-ghost {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            padding: 14px 32px; border-radius: 6px; text-decoration: none; cursor: none;
+            border: 1px solid var(--border); color: var(--text);
+            background: var(--surface); transition: all 0.3s ease;
+        }
+        .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(0,229,255,0.06); transform: translateY(-2px); }
+
+        .hero-stats {
+            display: flex; gap: 3rem; justify-content: center; margin-top: 4rem;
+            animation: fadeInUp 0.8s ease 0.7s both;
+        }
+        .stat-item { text-align: center; }
+        .stat-num {
+            font-family: var(--font-display); font-size: 2rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--cyan), var(--green));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
+
+        .scroll-indicator {
+            position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--text-muted);
+            animation: fadeInUp 1s ease 1s both;
+        }
+        .scroll-indicator .line {
+            width: 1px; height: 50px;
+            background: linear-gradient(var(--cyan), transparent);
+            animation: scrollLine 2s ease-in-out infinite;
+        }
+        @keyframes scrollLine { 0%,100%{transform:scaleY(1);opacity:1;} 50%{transform:scaleY(0.5);opacity:0.4;} }
+
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+
+        /* ============ GLASS CARD ============ */
+        .glass-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            backdrop-filter: blur(24px);
+            transition: all 0.4s ease;
+            position: relative; overflow: hidden;
+        }
+        .glass-card::before {
+            content: ''; position: absolute; inset: -1px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(0,229,255,0.15), transparent, rgba(0,255,135,0.1));
+            opacity: 0; transition: opacity 0.4s;
+            pointer-events: none; z-index: 0;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude; -webkit-mask-composite: xor;
+            padding: 1px;
+        }
+        .glass-card:hover { transform: translateY(-6px); border-color: rgba(0,229,255,0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(0,229,255,0.06); }
+        .glass-card:hover::before { opacity: 1; }
+        .glass-card > * { position: relative; z-index: 1; }
+
+        /* ============ ABOUT ============ */
+        #about { padding: 8rem 0; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+        .about-tag-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1.5rem; }
+        .about-tag {
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em;
+            padding: 5px 14px; border-radius: 4px;
+            border: 1px solid var(--border); color: var(--text-muted);
+            background: var(--surface);
+        }
+        .about-tag.highlight { border-color: rgba(0,229,255,0.3); color: var(--cyan); background: rgba(0,229,255,0.06); }
+        .about-cards { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+        .about-card {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 1.25rem 1.5rem;
+        }
+        .about-card-icon {
+            width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 20px;
+        }
+        .about-card-icon.cyan { background: rgba(0,229,255,0.1); color: var(--cyan); }
+        .about-card-icon.green { background: rgba(0,255,135,0.1); color: var(--green); }
+        .about-card h4 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 3px; }
+        .about-card p { font-size: 12px; color: var(--text-muted); }
+
+        /* Photo */
+        .about-photo-wrap { position: relative; }
+        .photo-frame {
+            position: relative; border-radius: 20px; overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .photo-frame img { width: 100%; display: block; filter: grayscale(20%); transition: filter 0.6s; }
+        .photo-frame:hover img { filter: grayscale(0%); }
+        .photo-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(3,5,9,0.7) 0%, transparent 50%);
+        }
+        .photo-glow {
+            position: absolute; inset: -40px; z-index: -1;
+            background: radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .photo-badge {
+            position: absolute; bottom: 24px; left: 24px;
+            background: rgba(3,5,9,0.9); backdrop-filter: blur(12px);
+            border: 1px solid var(--border); border-radius: 10px;
+            padding: 10px 16px;
+        }
+        .photo-badge .status { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--green); }
+        .photo-badge .status::before { content: ''; width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; }
+
+        /* ============ SKILLS ============ */
+        #skills { padding: 6rem 0; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 1rem; margin-top: 3rem; }
+        .skill-item {
+            padding: 1.5rem 1rem; border-radius: 14px; text-align: center;
+            transition: all 0.3s ease; cursor: none;
+        }
+        .skill-item i { font-size: 2rem; color: var(--text-muted); transition: all 0.3s; }
+        .skill-item span { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; margin-top: 10px; color: var(--text-muted); transition: color 0.3s; }
+        .skill-item:hover { transform: translateY(-6px); border-color: rgba(0,229,255,0.3); }
+        .skill-item:hover i { color: var(--cyan); filter: drop-shadow(0 0 12px var(--cyan)); }
+        .skill-item:hover span { color: #fff; }
+
+        /* ============ TIMELINE ============ */
+        #experience { padding: 8rem 0; }
+        .timeline { position: relative; padding-left: 2.5rem; max-width: 780px; margin: 3rem auto 0; }
+        .timeline::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px;
+            background: linear-gradient(var(--cyan), var(--green), transparent);
+        }
+        .timeline-item { position: relative; margin-bottom: 3rem; }
+        .timeline-dot {
+            position: absolute; left: -2.5rem; top: 0;
+            width: 18px; height: 18px; border-radius: 50%;
+            border: 2px solid var(--bg); background: var(--cyan);
+            box-shadow: 0 0 20px rgba(0,229,255,0.6);
+            transform: translateX(-50%) translateX(0.5px);
+        }
+        .timeline-dot.green { background: var(--green); box-shadow: 0 0 20px rgba(0,255,135,0.6); }
+        .timeline-dot.gray { background: var(--text-muted); box-shadow: none; }
+        .timeline-card { padding: 2rem; }
+        .timeline-badge {
+            display: inline-block; font-family: var(--font-mono); font-size: 10px;
+            letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 12px;
+            border-radius: 99px; margin-bottom: 1rem;
+        }
+        .timeline-badge.active { background: rgba(0,255,135,0.1); color: var(--green); border: 1px solid rgba(0,255,135,0.3); }
+        .timeline-badge.recent { background: rgba(0,229,255,0.1); color: var(--cyan); border: 1px solid rgba(0,229,255,0.3); }
+        .timeline-badge.past { background: rgba(100,116,139,0.1); color: var(--text-muted); border: 1px solid var(--border); }
+        .timeline-card h3 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
+        .timeline-card h4 { font-size: 13px; color: var(--text-muted); margin-bottom: 1rem; }
+        .timeline-card p { font-size: 14px; color: var(--text-muted); line-height: 1.75; }
+
+        /* ============ TERMINAL ============ */
+        #terminal-sec { padding: 6rem 0; }
+        .terminal-wrapper { max-width: 860px; margin: 3rem auto 0; }
+        .terminal-win {
+            background: #0a0c10; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px; overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+        }
+        .terminal-topbar {
+            background: #141720; border-bottom: 1px solid rgba(255,255,255,0.07);
+            padding: 14px 18px; display: flex; align-items: center; gap: 12px;
+        }
+        .t-btn { width: 13px; height: 13px; border-radius: 50%; }
+        .t-btn.r { background: #ff5f56; box-shadow: 0 0 8px rgba(255,95,86,0.5); }
+        .t-btn.y { background: #ffbd2e; box-shadow: 0 0 8px rgba(255,189,46,0.5); }
+        .t-btn.g { background: #27c93f; box-shadow: 0 0 8px rgba(39,201,63,0.5); }
+        .t-title { flex: 1; text-align: center; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+        .terminal-body { padding: 1.5rem; height: 360px; overflow-y: auto; font-family: var(--font-mono); font-size: 13px; line-height: 1.7; cursor: text; }
+        .terminal-body::-webkit-scrollbar { width: 4px; }
+        .terminal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+        .term-prompt-green { color: var(--green); }
+        .term-input-line { display: flex; align-items: flex-start; gap: 0; margin-top: 8px; }
+        .term-input-line input {
+            flex: 1; background: transparent; border: none; outline: none;
+            font-family: var(--font-mono); font-size: 13px; color: #fff;
+            caret-color: var(--cyan); padding-left: 6px;
+        }
+
+        /* ============ PROJECTS ============ */
+        #projects { padding: 8rem 0; }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+        .project-card { border-radius: 16px; overflow: hidden; cursor: none; }
+        .project-thumb {
+            height: 220px; position: relative; overflow: hidden;
+            background: #0d1017;
+        }
+        .project-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; transition: all 0.6s ease; }
+        .project-card:hover .project-thumb img { opacity: 0.65; transform: scale(1.06); }
+        .project-thumb-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, #0a0c10 0%, transparent 60%);
+        }
+        .project-tag {
+            position: absolute; bottom: 20px; left: 20px;
+            font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+            padding: 5px 14px; border-radius: 99px;
+            border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px); color: #fff;
+        }
+        .project-tag.cyan { border-color: rgba(0,229,255,0.4); color: var(--cyan); background: rgba(0,229,255,0.1); }
+        .project-tag.green { border-color: rgba(0,255,135,0.4); color: var(--green); background: rgba(0,255,135,0.1); display:flex;align-items:center;gap:6px; }
+        .project-tag .live-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; }
+        .project-body { padding: 1.75rem; }
+        .project-body h3 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; transition: color 0.3s; }
+        .project-card:hover .project-body h3 { color: var(--cyan); }
+        .project-body p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+        .project-links { display: flex; gap: 12px; margin-top: 1.25rem; }
+        .project-link {
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em;
+            text-transform: uppercase; padding: 7px 16px; border-radius: 6px;
+            text-decoration: none; border: 1px solid var(--border);
+            color: var(--text-muted); background: var(--surface);
+            transition: all 0.3s ease; display: flex; align-items: center; gap: 6px;
+        }
+        .project-link:hover { border-color: var(--cyan); color: var(--cyan); }
+
+        /* ============ CERTIFICATIONS ============ */
+        #certifications { padding: 6rem 0; }
+        .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-top: 3rem; }
+        .cert-card { padding: 1.75rem; }
+        .cert-icon { width: 52px; height: 52px; border-radius: 12px; background: rgba(0,229,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--cyan); margin-bottom: 1rem; }
+        .cert-card h4 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+        .cert-card span { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+
+        /* ============ CONTACT ============ */
+        #contact { padding: 8rem 0; }
+        .contact-inner {
+            max-width: 820px; margin: 0 auto; text-align: center;
+            padding: 4rem 3rem; border-radius: 24px; position: relative; overflow: hidden;
+        }
+        .contact-glow {
+            position: absolute; border-radius: 50%; pointer-events: none;
+            filter: blur(100px);
+        }
+        .contact-glow-1 { width: 400px; height: 300px; top: -50px; left: -100px; background: rgba(0,229,255,0.08); }
+        .contact-glow-2 { width: 350px; height: 250px; bottom: -50px; right: -100px; background: rgba(0,255,135,0.07); }
+        .contact-inner > * { position: relative; z-index: 1; }
+        .contact-subtitle { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--cyan); margin-bottom: 1rem; }
+        .contact-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; color: #fff; line-height: 1.1; }
+        .contact-title span {
+            background: linear-gradient(135deg, var(--cyan), var(--green));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .contact-desc { font-size: 16px; color: var(--text-muted); line-height: 1.75; margin-top: 1.2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .contact-email {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-family: var(--font-mono); font-size: 15px; color: #fff;
+            text-decoration: none; margin-top: 2rem;
+            padding: 14px 30px; border-radius: 8px;
+            border: 1px solid rgba(0,229,255,0.3);
+            background: rgba(0,229,255,0.06);
+            transition: all 0.3s ease;
+        }
+        .contact-email:hover { border-color: var(--cyan); background: rgba(0,229,255,0.12); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,229,255,0.2); }
+        .social-links { display: flex; justify-content: center; gap: 1.25rem; margin-top: 2.5rem; }
+        .social-link {
+            width: 52px; height: 52px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem; color: var(--text-muted);
+            border: 1px solid var(--border); background: var(--surface);
+            text-decoration: none; transition: all 0.3s ease;
+        }
+        .social-link:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(0,229,255,0.08); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,229,255,0.15); }
+
+        /* ============ FOOTER ============ */
+        footer {
+            border-top: 1px solid var(--border); padding: 2.5rem 2rem;
+            text-align: center; position: relative; z-index: 1;
+        }
+        footer p { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+        footer span { color: var(--cyan); }
+
+        /* ============ SYSTEM WIDGET ============ */
+        #sys-widget {
+            position: fixed; bottom: 28px; right: 28px; z-index: 100;
+            background: rgba(6,8,15,0.9); backdrop-filter: blur(16px);
+            border: 1px solid rgba(0,255,135,0.2); border-radius: 10px;
+            padding: 12px 18px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 20px rgba(0,255,135,0.05);
+        }
+        #sys-widget .row { display: flex; align-items: center; gap: 10px; }
+        #sys-widget .label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); }
+        #live-clock { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--green); letter-spacing: 0.05em; }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 900px) {
+            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .about-photo-wrap { max-width: 380px; }
+            .nav-links, .nav-cta { display: none; }
+            .hamburger { display: flex; }
+            .hero-stats { gap: 2rem; }
+        }
+        @media (max-width: 600px) {
+            .projects-grid { grid-template-columns: 1fr; }
+            .certs-grid { grid-template-columns: 1fr; }
+            .contact-inner { padding: 2.5rem 1.5rem; }
+            .hero-stats { flex-direction: column; gap: 1.5rem; }
+            #sys-widget { display: none; }
+        }
+
+        /* ============ AOS CUSTOM ============ */
+        [data-reveal] { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        [data-reveal].revealed { opacity: 1; transform: translateY(0); }
+        [data-reveal-delay="1"] { transition-delay: 0.1s; }
+        [data-reveal-delay="2"] { transition-delay: 0.2s; }
+        [data-reveal-delay="3"] { transition-delay: 0.3s; }
+        [data-reveal-delay="4"] { transition-delay: 0.4s; }
+        [data-reveal-delay="5"] { transition-delay: 0.5s; }
+
+        /* ============ TILT EFFECT ============ */
+        .tilt { transform-style: preserve-3d; transition: transform 0.3s ease; }
+
+        /* ============ GRADIENT BORDER ============ */
+        .grad-border {
+            position: relative;
+            background: var(--surface);
+            border-radius: 16px;
+        }
+        .grad-border::after {
+            content: ''; position: absolute; inset: 0;
+            border-radius: inherit; padding: 1px;
+            background: linear-gradient(135deg, rgba(0,229,255,0.5), transparent 50%, rgba(0,255,135,0.5));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            opacity: 0; transition: opacity 0.4s;
+            pointer-events: none;
+        }
+        .grad-border:hover::after { opacity: 1; }
+
+        /* Divider */
+        .divider {
+            display: flex; align-items: center; gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .divider-line { flex: 1; height: 1px; background: var(--border); }
+        .divider span { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-muted); }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <div id="snake-container"></div>
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
 
-    <canvas id="matrix"></canvas>
+<!-- Custom Cursor -->
+<div id="cursor-ring"></div>
+<div id="cursor-dot"></div>
 
-    <div class="system-widget hidden md:block" data-aos="fade-left" data-aos-delay="1000">
-        <div class="flex items-center space-x-3">
-            <div class="w-2 h-2 rounded-full bg-[#00FF41] animate-pulse"></div>
-            <div>
-                <p class="text-[9px] mono text-gray-400 uppercase tracking-widest mb-1">System Status: Active</p>
-                <p id="live-clock" class="mono text-[#00FF41] text-sm font-bold tracking-wider">00:00:00</p>
+<!-- Loader -->
+<div id="loader">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#64748b;">
+        <span style="color:#00e5ff">&#47;&#47;</span> Initializing...
+    </div>
+    <div class="loader-bar-wrap">
+        <div class="loader-bar"></div>
+    </div>
+    <p class="loader-text">Establishing secure connection_</p>
+</div>
+
+<!-- Background Elements -->
+<div class="bg-grid"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<canvas id="matrix"></canvas>
+
+<!-- System Widget -->
+<div id="sys-widget">
+    <div class="row">
+        <span class="label">System:</span>
+        <div class="label" style="color:#00ff87;display:flex;align-items:center;gap:6px;">
+            <span style="width:6px;height:6px;background:#00ff87;border-radius:50%;display:inline-block;animation:pulse 2s ease infinite;"></span>
+            Active
+        </div>
+    </div>
+    <div class="row" style="margin-top:6px;">
+        <span class="label">BD_TIME:</span>
+        <span id="live-clock">00:00:00</span>
+    </div>
+</div>
+
+<!-- ======== NAVBAR ======== -->
+<nav id="navbar">
+    <div class="nav-inner">
+        <a href="#hero" class="nav-logo">
+            <span>&lt;</span>OMAR.FARUK<span>/&gt;</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#about">Who_Am_I</a></li>
+            <li><a href="#skills">Arsenal</a></li>
+            <li><a href="#experience">Timeline</a></li>
+            <li><a href="#terminal-sec">CLI</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="#" class="nav-cta"><i class="fas fa-file-alt" style="font-size:10px;"></i> Resume</a>
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+    <a href="#about" onclick="closeMobileMenu()">Who_Am_I</a>
+    <a href="#skills" onclick="closeMobileMenu()">Arsenal</a>
+    <a href="#experience" onclick="closeMobileMenu()">Timeline</a>
+    <a href="#terminal-sec" onclick="closeMobileMenu()">CLI</a>
+    <a href="#projects" onclick="closeMobileMenu()">Projects</a>
+    <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<!-- ======== HERO ======== -->
+<section id="hero">
+    <div class="hero-badge">
+        <span class="dot"></span>
+        Available for collaboration
+    </div>
+    <h1 class="hero-name">
+        <span class="line1">TALUKDER</span>
+        <span class="line2">OMAR FARUK</span>
+    </h1>
+    <div class="hero-role">
+        <span id="typing-text"></span><span class="cursor-blink">_</span>
+    </div>
+    <p class="hero-desc">
+        AI Researcher &amp; Cyber Security Specialist from Bangladesh. Securing digital futures through code, research, and offensive security.
+    </p>
+    <div class="hero-ctas">
+        <a href="#terminal-sec" class="btn-primary">
+            <i class="fas fa-terminal" style="font-size:12px;"></i> Open Terminal
+        </a>
+        <a href="#projects" class="btn-ghost">
+            <i class="fas fa-folder-open" style="font-size:12px;"></i> View Projects
+        </a>
+    </div>
+    <div class="hero-stats">
+        <div class="stat-item">
+            <div class="stat-num">Top 3%</div>
+            <div class="stat-label">TryHackMe</div>
+        </div>
+        <div class="stat-item" style="border-left:1px solid var(--border);border-right:1px solid var(--border);padding:0 3rem;">
+            <div class="stat-num">2+</div>
+            <div class="stat-label">Certifications</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">3+</div>
+            <div class="stat-label">Live Projects</div>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="line"></div>
+    </div>
+</section>
+
+<!-- ======== ABOUT ======== -->
+<section id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div data-reveal>
+                <p class="section-header">About</p>
+                <h2 class="section-title">Who Am I?</h2>
+                <p style="font-size:15px;color:var(--text-muted);line-height:1.8;margin-top:1.5rem;">
+                    I am a <strong style="color:#fff;font-weight:600;">Cyber Security Specialist &amp; Full-Stack Developer</strong> by day and an 
+                    <strong style="color:var(--cyan);font-weight:600;">AI Researcher</strong> by night. Currently serving as an ICT Lecturer, I dedicate my expertise to securing digital assets and researching EEG signal processing for healthcare AI.
+                </p>
+                <div class="about-tag-row">
+                    <span class="about-tag highlight">AI Researcher</span>
+                    <span class="about-tag highlight">Ethical Hacker</span>
+                    <span class="about-tag">PHP / JavaScript</span>
+                    <span class="about-tag">Python / ML</span>
+                    <span class="about-tag">Network Security</span>
+                    <span class="about-tag">Bangladesh</span>
+                </div>
+                <div class="about-cards">
+                    <div class="glass-card about-card grad-border" data-reveal data-reveal-delay="1">
+                        <div class="about-card-icon cyan"><i class="fas fa-brain"></i></div>
+                        <div>
+                            <h4>AI Enthusiast</h4>
+                            <p>EEG Seizure Detection &amp; Deep Learning Research</p>
+                        </div>
+                    </div>
+                    <div class="glass-card about-card grad-border" data-reveal data-reveal-delay="2">
+                        <div class="about-card-icon green"><i class="fas fa-user-secret"></i></div>
+                        <div>
+                            <h4>Ethical Hacker</h4>
+                            <p>Certified CEH (Practical) &amp; CNSP | Top 3% TryHackMe</p>
+                        </div>
+                    </div>
+                    <div class="glass-card about-card grad-border" data-reveal data-reveal-delay="3">
+                        <div class="about-card-icon cyan" style="background:rgba(124,58,237,0.1);color:#a78bfa;"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <div>
+                            <h4>ICT Lecturer</h4>
+                            <p>Educating the next generation of tech professionals</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-photo-wrap" data-reveal data-reveal-delay="2">
+                <div class="photo-glow"></div>
+                <div class="photo-frame tilt">
+                    <img src="image.png" alt="Talukder Omar Faruk" onerror="this.style.display='none';this.parentElement.style.background='rgba(0,229,255,0.05)';this.parentElement.style.minHeight='440px';">
+                    <div class="photo-overlay"></div>
+                    <div class="photo-badge">
+                        <div class="status">Available for work</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</section>
 
-    <header class="fixed w-full z-50 bg-black/70 backdrop-blur-lg border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold mono tracking-tighter text-[#00e0ff] hover:text-white transition duration-300 cursor-none">
-                <span class="text-white">&lt;</span> OMAR.FARUK <span class="text-white">/&gt;</span>
-            </h1>
-            <nav class="hidden md:flex space-x-6 text-[10px] font-bold uppercase tracking-[0.2em] cursor-none">
-                <a href="#hero" class="hover:text-[#00e0ff] transition">Home</a>
-                <a href="#about" class="hover:text-[#00e0ff] transition">Who_Am_I</a>
-                <a href="#experience" class="hover:text-[#00e0ff] transition">Timeline</a>
-                <a href="#terminal-sec" class="hover:text-[#00FF41] transition border-b border-[#00FF41]">CLI</a>
-                <a href="#projects" class="hover:text-[#00e0ff] transition">Projects</a>
-            </nav>
-            <button class="px-5 py-2 border border-[#00e0ff]/40 text-[#00e0ff] text-xs font-bold rounded hover:bg-[#00e0ff] hover:text-black transition duration-500 cursor-none">
-                RESUME.PDF
-            </button>
+<!-- ======== SKILLS ======== -->
+<section id="skills">
+    <div class="container">
+        <div data-reveal>
+            <p class="section-header">Tech Stack</p>
+            <h2 class="section-title">Cyber Arsenal</h2>
         </div>
-    </header>
+        <div class="skills-grid" data-reveal data-reveal-delay="1">
+            <div class="glass-card skill-item tilt">
+                <i class="fab fa-python"></i><span>Python</span>
+            </div>
+            <div class="glass-card skill-item tilt">
+                <i class="fab fa-js"></i><span>JavaScript</span>
+            </div>
+            <div class="glass-card skill-item tilt">
+                <i class="fab fa-php"></i><span>PHP</span>
+            </div>
+            <div class="glass-card skill-item tilt">
+                <i class="fab fa-linux"></i><span>Kali Linux</span>
+            </div>
+            <div class="glass-card skill-item tilt">
+                <i class="fas fa-network-wired"></i><span>Networking</span>
+            </div>
+            <div class="glass-card skill-item tilt">
+                <i class="fas fa-database"></i><span>SQL/NoSQL</span>
+            </div>
+            <div class="glass-card skill-item tilt">
+                <i class="fas fa-shield-alt"></i><span>Pen Testing</span>
+            </div>
+            <div class="glass-card skill-item tilt">
+                <i class="fas fa-robot"></i><span>ML / AI</span>
+            </div>
+            <div class="glass-card skill-item tilt">
+                <i class="fab fa-git-alt"></i><span>Git</span>
+            </div>
+            <div class="glass-card skill-item tilt">
+                <i class="fab fa-html5"></i><span>HTML/CSS</span>
+            </div>
+            <div class="glass-card skill-item tilt">
+                <i class="fas fa-terminal"></i><span>Bash</span>
+            </div>
+            <div class="glass-card skill-item tilt">
+                <i class="fas fa-bug"></i><span>SIEM/SOC</span>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <main class="relative">
-        <section id="hero" class="h-screen flex flex-col justify-center items-center text-center px-6 hero-gradient relative cursor-none">
-            <div class="absolute top-32 left-10 w-16 h-16 border-t-2 border-l-2 border-[#00e0ff]/30 opacity-50 hidden md:block"></div>
-            <div class="absolute bottom-32 right-10 w-16 h-16 border-b-2 border-r-2 border-[#00FF41]/30 opacity-50 hidden md:block"></div>
-
-            <div data-aos="fade-up" data-aos-duration="1500">
-                <p class="mono text-[#00e0ff] mb-4 tracking-[0.4em] text-xs uppercase"><i class="fas fa-lock mr-2"></i>Secure connection established</p>
-                <h2 class="text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter">
-                    TALUKDER <br> <span class="glow-text text-[#00e0ff]">OMAR FARUK</span>
-                </h2>
-                <h3 id="typing-text" class="text-xl md:text-2xl mono text-gray-300 h-8 font-light mb-8"></h3>
-                
-                <div class="mt-14 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 justify-center">
-                    <a href="#terminal-sec" class="px-10 py-4 bg-[#00FF41] text-black font-black rounded-full hover:shadow-[0_0_30px_rgba(0,255,65,0.6)] transition transform hover:scale-105 tracking-wide text-sm mono cursor-none">OPEN_TERMINAL</a>
-                    <a href="#projects" class="px-10 py-4 border border-white/20 hover:border-[#00e0ff] text-white hover:text-[#00e0ff] transition rounded-full font-bold tracking-wide text-sm cursor-none">EXPLORE PROJECTS</a>
+<!-- ======== EXPERIENCE ======== -->
+<section id="experience">
+    <div class="container">
+        <div data-reveal style="text-align:center;">
+            <p class="section-header" style="justify-content:center;">Experience</p>
+            <h2 class="section-title">Career Timeline</h2>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item" data-reveal>
+                <div class="timeline-dot" style="animation:pulse 2s ease infinite;"></div>
+                <div class="glass-card timeline-card">
+                    <span class="timeline-badge active">Present</span>
+                    <h3>ICT Lecturer &amp; Teacher</h3>
+                    <h4><i class="fas fa-building" style="margin-right:6px;"></i>Nasima Kadir Molla High School</h4>
+                    <p>Educating the next generation of students in Information and Communication Technology, while continuously developing skills in cyber security and full-stack development. Building the tech future of Bangladesh, one student at a time.</p>
                 </div>
             </div>
-        </section>
-
-        <section id="about" class="max-w-7xl mx-auto py-24 px-6 cursor-none">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div data-aos="fade-right">
-                    <h2 class="text-3xl font-bold mb-6 text-white mono">&gt; Who_Am_I?</h2>
-                    <p class="text-lg text-gray-400 leading-relaxed mb-8">
-                        I am a <span class="text-white font-bold border-b border-[#00e0ff]">Cyber Security Specialist & Web Developer</span> by day and an <span class="text-[#00e0ff] font-bold">AI Researcher</span> by night. Currently serving as a Teacher, I dedicate my expertise to securing digital assets and researching EEG signal processing for healthcare.
-                    </p>
-                    <div class="space-y-6">
-                        <div class="flex items-center space-x-5 glass p-4 rounded-xl border-l-2 border-l-[#00e0ff]">
-                            <div class="w-12 h-12 rounded-full bg-[#00e0ff]/10 flex items-center justify-center text-[#00e0ff]"><i class="fas fa-brain text-xl"></i></div>
-                            <div>
-                                <h4 class="text-white font-bold tracking-wide">AI Enthusiast</h4>
-                                <p class="text-sm text-gray-500 mt-1">Seizure Detection & Signal Processing</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-5 glass p-4 rounded-xl border-l-2 border-l-[#00FF41]">
-                            <div class="w-12 h-12 rounded-full bg-[#00FF41]/10 flex items-center justify-center text-[#00FF41]"><i class="fas fa-user-secret text-xl"></i></div>
-                            <div>
-                                <h4 class="text-white font-bold tracking-wide">Ethical Hacker</h4>
-                                <p class="text-sm text-gray-500 mt-1">Certified CEH (Practical) & CNSP</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="relative group" data-aos="fade-left">
-                    <div class="absolute -inset-4 bg-gradient-to-r from-[#00e0ff] to-[#00FF41] rounded-2xl blur-xl opacity-20 group-hover:opacity-50 transition duration-1000"></div>
-                    <img src="image.png" alt="Omar Faruk" class="relative z-10 w-full max-w-md mx-auto rounded-2xl grayscale hover:grayscale-0 transition duration-700 border border-white/10 shadow-2xl">
+            <div class="timeline-item" data-reveal data-reveal-delay="1">
+                <div class="timeline-dot green"></div>
+                <div class="glass-card timeline-card">
+                    <span class="timeline-badge recent">Recent</span>
+                    <h3>Certified Security Professional</h3>
+                    <h4><i class="fas fa-shield-alt" style="margin-right:6px;"></i>Global Platforms</h4>
+                    <p>Achieved <strong style="color:#fff;">Top 3% Global Rank</strong> on TryHackMe. Successfully completed <strong style="color:var(--cyan);">CEH (Practical)</strong> &amp; <strong style="color:var(--cyan);">CNSP</strong> certifications, proving practical penetration testing and network security skills at an industry level.</p>
                 </div>
             </div>
-        </section>
-
-        <section id="skills" class="max-w-7xl mx-auto py-10 px-6 cursor-none">
-            <h2 class="text-3xl font-bold mb-12 text-white mono text-center" data-aos="fade-up">&gt; Cyber_Arsenal & Tech_Stack</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center group" data-aos="zoom-in"><i class="fab fa-python text-4xl text-gray-500 group-hover:text-[#00e0ff] mb-3 transition duration-300"></i><span class="mono text-xs text-gray-400 group-hover:text-white">Python</span></div>
-                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center group" data-aos="zoom-in"><i class="fab fa-js text-4xl text-gray-500 group-hover:text-yellow-400 mb-3 transition duration-300"></i><span class="mono text-xs text-gray-400 group-hover:text-white">JavaScript</span></div>
-                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center group" data-aos="zoom-in"><i class="fab fa-php text-4xl text-gray-500 group-hover:text-indigo-400 mb-3 transition duration-300"></i><span class="mono text-xs text-gray-400 group-hover:text-white">PHP</span></div>
-                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center group" data-aos="zoom-in"><i class="fab fa-linux text-4xl text-gray-500 group-hover:text-white mb-3 transition duration-300"></i><span class="mono text-xs text-gray-400 group-hover:text-white">Kali Linux</span></div>
-                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center group" data-aos="zoom-in"><i class="fas fa-network-wired text-4xl text-gray-500 group-hover:text-[#00FF41] mb-3 transition duration-300"></i><span class="mono text-xs text-gray-400 group-hover:text-white">Networking</span></div>
-                <div class="glass p-6 rounded-2xl flex flex-col items-center justify-center group" data-aos="zoom-in"><i class="fas fa-database text-4xl text-gray-500 group-hover:text-blue-400 mb-3 transition duration-300"></i><span class="mono text-xs text-gray-400 group-hover:text-white">SQL/NoSQL</span></div>
-            </div>
-        </section>
-
-        <section id="experience" class="max-w-5xl mx-auto py-24 px-6 cursor-none">
-            <h2 class="text-3xl font-bold mb-16 text-white mono text-center" data-aos="fade-up">&gt; Career_Execution_Flow</h2>
-            
-            <div class="relative border-l-2 border-[#00e0ff]/30 ml-3 md:ml-6 space-y-12">
-                <div class="relative pl-8 md:pl-10" data-aos="fade-up">
-                    <div class="absolute -left-[11px] top-1 w-5 h-5 bg-[#00FF41] rounded-full border-4 border-black animate-pulse"></div>
-                    <div class="glass p-8 rounded-2xl hover:border-[#00FF41]/50 transition duration-300">
-                        <span class="text-[#00FF41] mono text-xs font-bold px-3 py-1 bg-[#00FF41]/10 rounded-full mb-4 inline-block">Present</span>
-                        <h3 class="text-2xl font-bold text-white mb-2">ICT Lecturer & Teacher</h3>
-                        <h4 class="text-gray-400 font-bold mb-4"><i class="fas fa-building mr-2"></i>Nasima Kadir Molla High School</h4>
-                        <p class="text-sm text-gray-500 leading-relaxed">Educating the next generation of students in Information and Communication Technology, while continuously developing my own skills in cyber security and full-stack development.</p>
-                    </div>
-                </div>
-
-                <div class="relative pl-8 md:pl-10" data-aos="fade-up">
-                    <div class="absolute -left-[9px] top-1 w-4 h-4 bg-[#00e0ff] rounded-full border-4 border-black"></div>
-                    <div class="glass p-8 rounded-2xl hover:border-[#00e0ff]/50 transition duration-300">
-                        <span class="text-[#00e0ff] mono text-xs font-bold px-3 py-1 bg-[#00e0ff]/10 rounded-full mb-4 inline-block">Recent</span>
-                        <h3 class="text-2xl font-bold text-white mb-2">Certified Security Professional</h3>
-                        <h4 class="text-gray-400 font-bold mb-4"><i class="fas fa-shield-alt mr-2"></i>Global Platforms</h4>
-                        <p class="text-sm text-gray-500 leading-relaxed">Achieved Top 3% Global Rank on TryHackMe. Successfully completed CEH (Practical) & CNSP certifications, proving practical penetration testing and network security skills.</p>
-                    </div>
-                </div>
-
-                <div class="relative pl-8 md:pl-10" data-aos="fade-up">
-                    <div class="absolute -left-[9px] top-1 w-4 h-4 bg-gray-500 rounded-full border-4 border-black"></div>
-                    <div class="glass p-8 rounded-2xl hover:border-gray-400/50 transition duration-300">
-                        <span class="text-gray-400 mono text-xs font-bold px-3 py-1 bg-gray-500/10 rounded-full mb-4 inline-block">Past</span>
-                        <h3 class="text-2xl font-bold text-white mb-2">B.Sc. in Computer Science (Thesis)</h3>
-                        <h4 class="text-gray-400 font-bold mb-4"><i class="fas fa-graduation-cap mr-2"></i>AI & ML Research</h4>
-                        <p class="text-sm text-gray-500 leading-relaxed">Conducted deep research on healthcare AI, specifically "EEG Seizure Detection" using Python and Deep Learning, successfully graduating with a major in Computer Science.</p>
-                    </div>
+            <div class="timeline-item" data-reveal data-reveal-delay="2">
+                <div class="timeline-dot gray"></div>
+                <div class="glass-card timeline-card">
+                    <span class="timeline-badge past">Past</span>
+                    <h3>B.Sc. in Computer Science (Thesis)</h3>
+                    <h4><i class="fas fa-graduation-cap" style="margin-right:6px;"></i>AI &amp; ML Research</h4>
+                    <p>Conducted deep research on healthcare AI, specifically <strong style="color:#fff;">"EEG Seizure Detection"</strong> using Python and Deep Learning. Successfully graduated with a major in Computer Science and published original research findings.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
-        <section id="terminal-sec" class="max-w-4xl mx-auto py-24 px-6 cursor-none">
-            <div class="mb-10 text-center" data-aos="fade-up">
-                <h2 class="text-3xl font-black text-white tracking-tighter">INTERACTIVE_CLI</h2>
-                <p class="text-gray-500 mono text-sm mt-2">Access granted. Try typing 'whoami' or 'learn'</p>
-            </div>
-
-            <div class="terminal-window rounded-xl overflow-hidden shadow-2xl" data-aos="zoom-in">
-                <div class="terminal-header px-4 py-3 flex items-center">
-                    <div class="flex space-x-2">
-                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                    </div>
-                    <div class="flex-1 text-center text-gray-400 mono text-xs">jaki@kali: ~</div>
+<!-- ======== TERMINAL ======== -->
+<section id="terminal-sec">
+    <div class="container">
+        <div data-reveal style="text-align:center;">
+            <p class="section-header" style="justify-content:center;">Interactive</p>
+            <h2 class="section-title">CLI Interface</h2>
+            <p style="font-size:13px;font-family:var(--font-mono);color:var(--text-muted);margin-top:1rem;">
+                Access granted. Type <span style="color:var(--green);">help</span> for available commands.
+            </p>
+        </div>
+        <div class="terminal-wrapper" data-reveal data-reveal-delay="1">
+            <div class="terminal-win">
+                <div class="terminal-topbar">
+                    <div class="t-btn r"></div>
+                    <div class="t-btn y"></div>
+                    <div class="t-btn g"></div>
+                    <div class="t-title">jaki@kali: ~ — bash</div>
                 </div>
-                
-                <div class="p-4 h-80 overflow-y-auto mono text-sm" id="terminal-body" style="cursor: text;">
-                    <div class="mb-4 text-gray-300">
-                        Kali GNU/Linux Rolling kali-rolling<br>
-                        Type 'help' to see a list of available commands.
+                <div class="terminal-body" id="terminal-body">
+                    <div style="color:var(--text-muted);margin-bottom:12px;">
+                        <span style="color:var(--green);">Kali GNU/Linux Rolling</span> — Secure Session<br>
+                        <span style="color:var(--cyan);">Welcome, operator.</span> Type <span style="color:var(--green);">'help'</span> to see available commands.
                     </div>
-                    
                     <div id="terminal-output"></div>
-
-                    <div class="flex items-center terminal-input-line mt-2">
-                        <div class="text-[#268bd2] font-bold mr-2 whitespace-nowrap">
-                            <span class="text-[#00FF41]">┌──(jaki㉿kali)-[~]</span><br>
-                            <span class="text-[#00FF41]">└─$</span>
-                        </div>
-                        <input type="text" id="terminal-input" class="w-full bg-transparent text-white border-none focus:ring-0 p-0 mt-4 font-mono outline-none" autocomplete="off" spellcheck="false" autofocus>
+                    <div class="term-input-line">
+                        <span class="term-prompt-green">┌──(jaki㉿kali)-[~]<br>└─$&nbsp;</span>
+                        <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" placeholder="">
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
-        <section id="projects" class="max-w-7xl mx-auto py-24 px-6 cursor-none">
-            <h2 class="text-4xl font-black text-white tracking-tighter mb-16">PROJECT_VAULT</h2>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                <div class="glass rounded-3xl overflow-hidden group" data-aos="fade-up">
-                    <div class="h-56 bg-zinc-900 relative overflow-hidden">
-                        <img src="project1.png" class="w-full h-full object-cover opacity-40 group-hover:scale-110 group-hover:opacity-60 transition duration-1000" alt="Library System">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-                        <span class="absolute bottom-6 left-6 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[9px] mono uppercase tracking-widest text-white border border-white/20">Full Stack</span>
-                    </div>
-                    <div class="p-8">
-                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-[#00e0ff] transition">Library Automation</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-6">A PHP-based secure platform with bKash API integration.</p>
-                    </div>
+<!-- ======== PROJECTS ======== -->
+<section id="projects">
+    <div class="container">
+        <div data-reveal>
+            <p class="section-header">Work</p>
+            <h2 class="section-title">Project Vault</h2>
+        </div>
+        <div class="projects-grid">
+            <div class="glass-card project-card tilt" data-reveal data-reveal-delay="1">
+                <div class="project-thumb">
+                    <img src="project1.png" alt="Library System" onerror="this.style.display='none';">
+                    <div class="project-thumb-overlay"></div>
+                    <span class="project-tag">Full Stack</span>
                 </div>
-
-                <div class="glass rounded-3xl overflow-hidden group" data-aos="fade-up" data-aos-delay="150">
-                    <div class="h-56 bg-zinc-900 relative overflow-hidden">
-                        <img src="project2.png" class="w-full h-full object-cover opacity-40 group-hover:scale-110 group-hover:opacity-60 transition duration-1000" alt="EEG Thesis">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-                        <span class="absolute bottom-6 left-6 px-3 py-1 bg-[#00e0ff]/20 backdrop-blur-md rounded-full text-[9px] mono uppercase tracking-widest text-[#00e0ff] border border-[#00e0ff]/30">AI / Research</span>
-                    </div>
-                    <div class="p-8">
-                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-[#00e0ff] transition">EEG Seizure Detection</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-6">Detecting epileptic seizures from EEG signals using Python Deep Learning.</p>
-                    </div>
-                </div>
-
-                <div class="glass rounded-3xl overflow-hidden group relative" data-aos="fade-up" data-aos-delay="300">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#00FF41] to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
-                    <div class="h-56 bg-zinc-900 relative overflow-hidden">
-                        <img src="Screenshot From 2026-04-13 19-34-40.png" class="w-full h-full object-cover opacity-40 group-hover:scale-110 group-hover:opacity-60 transition duration-1000" alt="Mini-SIEM Tool">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-                        <span class="absolute bottom-6 left-6 px-3 py-1 bg-[#00FF41]/10 backdrop-blur-md rounded-full text-[9px] mono uppercase tracking-widest text-[#00FF41] border border-[#00FF41]/30 flex items-center"><i class="fas fa-circle text-[6px] mr-2 animate-pulse"></i>Live Monitor</span>
-                    </div>
-                    <div class="p-8">
-                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-[#00FF41] transition">Mini-SIEM Dashboard</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-6">Real-time Security Information tool to monitor system resources & attacks.</p>
+                <div class="project-body">
+                    <h3>Library Automation System</h3>
+                    <p>A secure PHP-based library management platform with integrated bKash payment API, role-based access control, and digital catalog management.</p>
+                    <div class="project-links">
+                        <a href="https://github.com/talukderomarfaruk" class="project-link" target="_blank"><i class="fab fa-github" style="font-size:11px;"></i>Code</a>
+                        <a href="#" class="project-link"><i class="fas fa-external-link-alt" style="font-size:10px;"></i>Demo</a>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <section id="contact" class="max-w-4xl mx-auto py-32 px-6 cursor-none">
-            <div class="glass p-12 rounded-[3rem] text-center border-white/5 relative overflow-hidden group">
-                <div class="absolute -top-10 -right-10 w-64 h-64 bg-[#00e0ff]/10 blur-[100px] group-hover:bg-[#00e0ff]/20 transition duration-1000"></div>
-                <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-[#00FF41]/10 blur-[100px] group-hover:bg-[#00FF41]/20 transition duration-1000"></div>
-                
-                <h2 class="text-4xl font-black text-white mb-6 relative z-10">HAVE A CHALLENGE?</h2>
-                <p class="text-gray-400 mb-10 max-w-lg mx-auto italic text-lg relative z-10">"Let's build something secure and intelligent together."</p>
-                
-                <div class="flex justify-center space-x-8 text-3xl relative z-10 cursor-none">
-                    <a href="https://github.com/talukderomarfaruk" class="text-gray-500 hover:text-white hover:scale-125 transition transform"><i class="fab fa-github"></i></a>
-                    <a href="http://www.linkedin.com/in/omarjaki" class="text-gray-500 hover:text-[#00e0ff] hover:scale-125 transition transform"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://facebook.com/0xm4r" class="text-gray-500 hover:text-[#00FF41] hover:scale-125 transition transform"><i class="fab fa-facebook"></i></a>
+            <div class="glass-card project-card tilt" data-reveal data-reveal-delay="2">
+                <div class="project-thumb">
+                    <img src="project2.png" alt="EEG Thesis" onerror="this.style.display='none';">
+                    <div class="project-thumb-overlay"></div>
+                    <span class="project-tag cyan">AI / Research</span>
+                </div>
+                <div class="project-body">
+                    <h3>EEG Seizure Detection</h3>
+                    <p>Detecting epileptic seizures from EEG brain signals using Python Deep Learning models — LSTM, CNN, and hybrid architectures for healthcare AI.</p>
+                    <div class="project-links">
+                        <a href="https://github.com/talukderomarfaruk" class="project-link" target="_blank"><i class="fab fa-github" style="font-size:11px;"></i>Research</a>
+                        <a href="#" class="project-link"><i class="fas fa-file-alt" style="font-size:10px;"></i>Paper</a>
+                    </div>
                 </div>
             </div>
-        </section>
+            <div class="glass-card project-card tilt" data-reveal data-reveal-delay="3">
+                <div class="project-thumb">
+                    <img src="Screenshot From 2026-04-13 19-34-40.png" alt="Mini-SIEM" onerror="this.style.display='none';">
+                    <div class="project-thumb-overlay"></div>
+                    <span class="project-tag green"><span class="live-dot"></span>Live Monitor</span>
+                </div>
+                <div class="project-body">
+                    <h3>Mini-SIEM Dashboard</h3>
+                    <p>Real-time Security Information &amp; Event Management tool to monitor system resources, detect anomalies, and visualize potential cyber attacks live.</p>
+                    <div class="project-links">
+                        <a href="https://github.com/talukderomarfaruk" class="project-link" target="_blank"><i class="fab fa-github" style="font-size:11px;"></i>Code</a>
+                        <a href="#" class="project-link"><i class="fas fa-external-link-alt" style="font-size:10px;"></i>Demo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-    </main>
+<!-- ======== CERTIFICATIONS ======== -->
+<section id="certifications">
+    <div class="container">
+        <div data-reveal style="text-align:center;">
+            <p class="section-header" style="justify-content:center;">Credentials</p>
+            <h2 class="section-title">Certifications</h2>
+        </div>
+        <div class="certs-grid" style="margin-top:3rem;">
+            <div class="glass-card cert-card grad-border" data-reveal data-reveal-delay="1">
+                <div class="cert-icon"><i class="fas fa-shield-alt"></i></div>
+                <h4>CEH (Practical)</h4>
+                <span>Certified Ethical Hacker — Practical</span>
+            </div>
+            <div class="glass-card cert-card grad-border" data-reveal data-reveal-delay="2">
+                <div class="cert-icon" style="background:rgba(0,255,135,0.1);color:var(--green);"><i class="fas fa-network-wired"></i></div>
+                <h4>CNSP</h4>
+                <span>Certified Network Security Professional</span>
+            </div>
+            <div class="glass-card cert-card grad-border" data-reveal data-reveal-delay="3">
+                <div class="cert-icon" style="background:rgba(124,58,237,0.1);color:#a78bfa;"><i class="fas fa-trophy"></i></div>
+                <h4>TryHackMe Top 3%</h4>
+                <span>Global Rank — Offensive Security</span>
+            </div>
+            <div class="glass-card cert-card grad-border" data-reveal data-reveal-delay="4">
+                <div class="cert-icon" style="background:rgba(251,146,60,0.1);color:#fb923c;"><i class="fas fa-graduation-cap"></i></div>
+                <h4>B.Sc. Computer Science</h4>
+                <span>Thesis in AI &amp; ML — EEG Research</span>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <footer class="py-12 border-t border-white/5 text-center text-gray-600 mono text-[10px] tracking-[0.3em] uppercase bg-black/50 cursor-none">
-        <p>Designed for High Performance & Intelligence</p>
-        <p class="mt-2 text-gray-500">&copy; 2026 OMAR_FARUK <span class="text-[#00e0ff]">||</span> SYSTEM.EXIT(0)</p>
-    </footer>
+<!-- ======== CONTACT ======== -->
+<section id="contact">
+    <div class="container">
+        <div class="glass-card contact-inner">
+            <div class="contact-glow contact-glow-1"></div>
+            <div class="contact-glow contact-glow-2"></div>
+            <p class="contact-subtitle">Let's Connect</p>
+            <h2 class="contact-title">Have a <span>Challenge?</span></h2>
+            <p class="contact-desc">"Let's build something secure and intelligent together. Whether it's a project, research, or a question — I'm here."</p>
+            <a href="mailto:omarfaruk@example.com" class="contact-email">
+                <i class="fas fa-envelope" style="color:var(--cyan);"></i>
+                Get In Touch
+            </a>
+            <div class="social-links">
+                <a href="https://github.com/talukderomarfaruk" target="_blank" class="social-link" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="http://www.linkedin.com/in/omarjaki" target="_blank" class="social-link" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://facebook.com/0xm4r" target="_blank" class="social-link" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://tryhackme.com" target="_blank" class="social-link" title="TryHackMe" style="font-size:0.9rem;">
+                    <i class="fas fa-flag"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ duration: 1000, once: true, offset: 50 });
+<!-- ======== FOOTER ======== -->
+<footer>
+    <p>Designed &amp; built by <span>Omar Faruk</span> &nbsp;·&nbsp; &copy; 2026 &nbsp;·&nbsp; <span>SYSTEM.EXIT(0)</span></p>
+</footer>
 
-        // --- CYBER SNAKE CURSOR LOGIC ---
-        const snakeContainer = document.getElementById('snake-container');
-        const numParts = 15; // Length of the snake
-        const parts = [];
-        let mX = window.innerWidth / 2;
-        let mY = window.innerHeight / 2;
+<!-- ======== SCRIPTS ======== -->
+<script>
+// === LOADER ===
+window.addEventListener('load', () => {
+    setTimeout(() => { document.getElementById('loader').classList.add('hide'); }, 2000);
+});
 
-        // Generate the snake parts
-        for (let i = 0; i < numParts; i++) {
-            let part = document.createElement('div');
-            part.className = 'snake-part';
-            
-            if(i === 0) {
-                // Snake Head
-                part.style.width = '16px';
-                part.style.height = '16px';
-                part.style.backgroundColor = 'transparent';
-                part.style.border = '2px solid #00e0ff'; // Neon Blue Head
-                part.style.boxShadow = '0 0 15px #00e0ff';
-            } else {
-                // Snake Body (gradually gets smaller)
-                let size = 12 - (i * 0.6);
-                part.style.width = size + 'px';
-                part.style.height = size + 'px';
-                part.style.backgroundColor = '#00FF41'; // Neon Green Body
-                part.style.boxShadow = '0 0 10px #00FF41';
-                part.style.opacity = 1 - (i * 0.05); // Fades out towards the tail
-            }
-            
-            snakeContainer.appendChild(part);
-            parts.push({ el: part, x: mX, y: mY });
-        }
+// === CURSOR ===
+const ring = document.getElementById('cursor-ring');
+const dot = document.getElementById('cursor-dot');
+let mx = 0, my = 0, rx = 0, ry = 0;
+window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.left = mx+'px'; dot.style.top = my+'px'; });
+function animCursor() {
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx+'px'; ring.style.top = ry+'px';
+    requestAnimationFrame(animCursor);
+}
+animCursor();
+document.querySelectorAll('a,button,input,.glass-card,.skill-item,.project-card,.tilt').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+});
 
-        // Track Mouse
-        window.addEventListener('mousemove', (e) => {
-            mX = e.clientX;
-            mY = e.clientY;
-        });
+// === SCROLL PROGRESS ===
+window.addEventListener('scroll', () => {
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('scroll-progress').style.width = pct + '%';
+});
 
-        // Animate Slithering
-        function animateSnake() {
-            // The head moves towards the mouse
-            parts[0].x += (mX - parts[0].x) * 0.25;
-            parts[0].y += (mY - parts[0].y) * 0.25;
-            parts[0].el.style.left = parts[0].x + 'px';
-            parts[0].el.style.top = parts[0].y + 'px';
+// === NAVBAR ===
+window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
 
-            // Each body part follows the part right in front of it
-            for (let i = 1; i < numParts; i++) {
-                let dx = parts[i - 1].x - parts[i].x;
-                let dy = parts[i - 1].y - parts[i].y;
-                
-                parts[i].x += dx * 0.45; // Speed of following
-                parts[i].y += dy * 0.45;
-                
-                parts[i].el.style.left = parts[i].x + 'px';
-                parts[i].el.style.top = parts[i].y + 'px';
-            }
-            requestAnimationFrame(animateSnake);
-        }
-        animateSnake();
+// === HAMBURGER ===
+const hbg = document.getElementById('hamburger');
+const mMenu = document.getElementById('mobile-menu');
+hbg.addEventListener('click', () => { hbg.classList.toggle('open'); mMenu.classList.toggle('open'); });
+function closeMobileMenu() { hbg.classList.remove('open'); mMenu.classList.remove('open'); }
 
+// === SCROLL REVEAL ===
+const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('revealed'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
 
-        // --- Live Cyber Clock Logic ---
-        function updateClock() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { hour12: false });
-            document.getElementById('live-clock').textContent = `${timeString} BD_TIME`;
-        }
-        setInterval(updateClock, 1000); updateClock();
+// === TILT EFFECT ===
+document.querySelectorAll('.tilt').forEach(el => {
+    el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        el.style.transform = `perspective(600px) rotateX(${-y*8}deg) rotateY(${x*8}deg) translateY(-6px)`;
+    });
+    el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+});
 
-        // --- Interactive Terminal Logic ---
-        const terminalInput = document.getElementById('terminal-input');
-        const terminalOutput = document.getElementById('terminal-output');
-        const terminalBody = document.getElementById('terminal-body');
+// === LIVE CLOCK ===
+function updateClock() {
+    const t = new Date().toLocaleTimeString('en-US', { hour12: false });
+    document.getElementById('live-clock').textContent = t;
+}
+setInterval(updateClock, 1000); updateClock();
 
-        terminalBody.addEventListener('click', () => terminalInput.focus());
+// === TYPING EFFECT ===
+const roles = ["AI & ML Researcher", "Certified Ethical Hacker", "Full-Stack Developer", "Cyber Security Specialist", "ICT Educator"];
+let rIdx = 0, cIdx = 0, isDel = false;
+const target = document.getElementById('typing-text');
+function typeEffect() {
+    const cur = roles[rIdx];
+    target.textContent = isDel ? cur.substring(0, cIdx--) : cur.substring(0, cIdx++);
+    if (!isDel && cIdx === cur.length + 1) { isDel = true; setTimeout(typeEffect, 2000); }
+    else if (isDel && cIdx === 0) { isDel = false; rIdx = (rIdx + 1) % roles.length; setTimeout(typeEffect, 400); }
+    else { setTimeout(typeEffect, isDel ? 45 : 90); }
+}
+typeEffect();
 
-        terminalInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                const cmd = this.value.trim().toLowerCase();
-                this.value = '';
-                processCommand(cmd);
-            }
-        });
+// === MATRIX CANVAS ===
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+const letters = "01アイウエオカキクケコ";
+const fs = 13;
+let drops = Array(Math.floor(canvas.width / fs)).fill(1);
+setInterval(() => {
+    ctx.fillStyle = 'rgba(3,5,9,0.04)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00ff87'; ctx.font = fs + 'px monospace';
+    for (let i = 0; i < drops.length; i++) {
+        ctx.fillText(letters[Math.floor(Math.random() * letters.length)], i * fs, drops[i] * fs);
+        if (drops[i] * fs > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+    }
+}, 50);
 
-        function processCommand(cmd) {
-            if (cmd === 'clear') { terminalOutput.innerHTML = ''; return; }
-            if (cmd === '') return;
+// === TERMINAL ===
+const termIn = document.getElementById('terminal-input');
+const termOut = document.getElementById('terminal-output');
+const termBody = document.getElementById('terminal-body');
+termBody.addEventListener('click', () => termIn.focus());
 
-            let response = '';
-            const promptHTML = `<div class="mt-4"><span class="text-[#00FF41]">┌──(jaki㉿kali)-[~]</span><br><span class="text-[#00FF41]">└─$</span> <span class="text-white">${cmd}</span></div>`;
+termIn.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        const cmd = this.value.trim().toLowerCase();
+        this.value = '';
+        if (cmd) processCommand(cmd);
+    }
+});
 
-            switch(cmd) {
-                case 'help':
-                    response = `Available commands:<br>
-                    &nbsp;&nbsp;<span class="text-[#00e0ff]">whoami</span> &nbsp;- Display user profile<br>
-                    &nbsp;&nbsp;<span class="text-[#00e0ff]">learn</span> &nbsp;&nbsp;- Learn basic Linux commands<br>
-                    &nbsp;&nbsp;<span class="text-[#00e0ff]">skills</span> &nbsp;- View tech stack<br>
-                    &nbsp;&nbsp;<span class="text-[#00e0ff]">clear</span> &nbsp;&nbsp;- Clear terminal screen<br>
-                    &nbsp;&nbsp;<span class="text-[#00e0ff]">sudo</span> &nbsp;&nbsp;&nbsp;- Execute command as superuser`;
-                    break;
-                case 'whoami':
-                    response = `<div class="border-l-2 border-[#00FF41] pl-3">
-                        <span class="font-bold text-white">Talukder Omar Faruk</span><br>
-                        Role: Cyber Security Specialist & AI Researcher<br>
-                        Location: Bangladesh<br>
-                        Status: Active
-                    </div>`;
-                    break;
-                case 'learn':
-                    response = `<span class="text-yellow-400 font-bold">--- Basic Linux Commands Crash Course ---</span><br>
-                    <span class="text-[#00e0ff]">pwd</span> &nbsp;&nbsp;: Print working directory (Where am I?)<br>
-                    <span class="text-[#00e0ff]">ls</span> &nbsp;&nbsp;&nbsp;: List directory contents (What files are here?)<br>
-                    <span class="text-[#00e0ff]">cd</span> &nbsp;&nbsp;&nbsp;: Change directory (Move to another folder)<br>
-                    <span class="text-[#00e0ff]">cat</span> &nbsp;&nbsp;: Read data from a file and output it<br>
-                    <span class="text-[#00e0ff]">grep</span> &nbsp;: Search for a specific pattern within text<br>
-                    <span class="text-[#00e0ff]">chmod</span> : Change file access permissions<br>
-                    <span class="text-gray-500 italic">Try searching Google for "Linux command cheat sheet" for more!</span>`;
-                    break;
-                case 'skills':
-                    response = `<span class="text-green-400">[+]</span> Python, JavaScript, PHP<br>
-                    <span class="text-green-400">[+]</span> Kali Linux, Bash Scripting<br>
-                    <span class="text-green-400">[+]</span> Network Security, Penetration Testing<br>
-                    <span class="text-green-400">[+]</span> AI & Machine Learning`;
-                    break;
-                case 'sudo':
-                    response = `<span class="text-red-500 font-bold">jaki is not in the sudoers file. This incident will be reported to the cyber police.</span>`;
-                    break;
-                default:
-                    response = `bash: ${cmd}: command not found. Type 'help' for available commands.`;
-            }
+const commands = {
+    help: () => `<span style="color:var(--cyan);">Available Commands:</span><br><br>
+        &nbsp;<span style="color:var(--green);">whoami</span> &nbsp;&nbsp;&nbsp;&nbsp;— Display user profile<br>
+        &nbsp;<span style="color:var(--green);">skills</span> &nbsp;&nbsp;&nbsp;&nbsp;— View tech stack<br>
+        &nbsp;<span style="color:var(--green);">projects</span> &nbsp;&nbsp;— List projects<br>
+        &nbsp;<span style="color:var(--green);">certs</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— View certifications<br>
+        &nbsp;<span style="color:var(--green);">learn</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— Linux crash course<br>
+        &nbsp;<span style="color:var(--green);">contact</span> &nbsp;&nbsp;&nbsp;— Get contact info<br>
+        &nbsp;<span style="color:var(--green);">sudo</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— Try your luck...<br>
+        &nbsp;<span style="color:var(--green);">clear</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— Clear terminal`,
+    whoami: () => `<div style="border-left:2px solid var(--green);padding-left:12px;">
+        <span style="color:#fff;font-weight:700;">Talukder Omar Faruk</span><br>
+        <span style="color:var(--text-muted);">Role: &nbsp;&nbsp;&nbsp;&nbsp;</span>Cyber Security Specialist &amp; AI Researcher<br>
+        <span style="color:var(--text-muted);">Location:</span>Bangladesh 🇧🇩<br>
+        <span style="color:var(--text-muted);">Status: &nbsp;</span><span style="color:var(--green);">Active &amp; Available</span><br>
+        <span style="color:var(--text-muted);">Rank: &nbsp;&nbsp;&nbsp;</span>TryHackMe Top 3% Global</div>`,
+    skills: () => `<span style="color:var(--cyan);">[+]</span> Python, JavaScript, PHP, Bash<br>
+        <span style="color:var(--cyan);">[+]</span> Kali Linux, Network Pen Testing<br>
+        <span style="color:var(--cyan);">[+]</span> AI / ML (PyTorch, scikit-learn)<br>
+        <span style="color:var(--cyan);">[+]</span> SQL/NoSQL, Full-Stack Development<br>
+        <span style="color:var(--cyan);">[+]</span> SIEM, SOC, Incident Response`,
+    projects: () => `<span style="color:var(--green);">01</span> Library Automation &nbsp;&nbsp;— PHP + bKash API<br>
+        <span style="color:var(--green);">02</span> EEG Seizure Detection — Python Deep Learning<br>
+        <span style="color:var(--green);">03</span> Mini-SIEM Dashboard &nbsp;— Real-time Security Monitor<br>
+        &nbsp;&nbsp;&nbsp;<span style="color:var(--text-muted);">→ github.com/talukderomarfaruk</span>`,
+    certs: () => `<span style="color:#f0c040;">★</span> CEH (Practical) — Certified Ethical Hacker<br>
+        <span style="color:#f0c040;">★</span> CNSP — Certified Network Security Professional<br>
+        <span style="color:#f0c040;">★</span> TryHackMe — Top 3% Global Rank`,
+    contact: () => `<span style="color:var(--text-muted);">GitHub: &nbsp;&nbsp;</span><a href="https://github.com/talukderomarfaruk" style="color:var(--cyan);">github.com/talukderomarfaruk</a><br>
+        <span style="color:var(--text-muted);">LinkedIn:</span><a href="http://www.linkedin.com/in/omarjaki" style="color:var(--cyan);">linkedin.com/in/omarjaki</a><br>
+        <span style="color:var(--text-muted);">Facebook:</span><a href="https://facebook.com/0xm4r" style="color:var(--cyan);">facebook.com/0xm4r</a>`,
+    learn: () => `<span style="color:#f0c040;font-weight:700;">— Linux Commands Crash Course —</span><br><br>
+        <span style="color:var(--green);">pwd</span> &nbsp;&nbsp;→ Print working directory<br>
+        <span style="color:var(--green);">ls</span> &nbsp;&nbsp;&nbsp;→ List directory contents<br>
+        <span style="color:var(--green);">cd</span> &nbsp;&nbsp;&nbsp;→ Change directory<br>
+        <span style="color:var(--green);">cat</span> &nbsp;&nbsp;→ Read file contents<br>
+        <span style="color:var(--green);">grep</span> &nbsp;→ Search patterns in text<br>
+        <span style="color:var(--green);">chmod</span>→ Change file permissions<br>
+        <span style="color:var(--green);">nmap</span> &nbsp;→ Network scanner<br>
+        <span style="color:var(--text-muted);">Tip: man &lt;command&gt; for documentation</span>`,
+    sudo: () => `<span style="color:#f87171;font-weight:700;">Permission denied.</span><br>jaki is not in the sudoers file.<br><span style="color:var(--text-muted);">This incident has been reported to the cyber police. 🚔</span>`,
+    clear: null,
+};
 
-            const outputNode = document.createElement('div');
-            outputNode.innerHTML = promptHTML + `<div class="text-gray-300 mt-1">${response}</div>`;
-            terminalOutput.appendChild(outputNode);
-            terminalBody.scrollTop = terminalBody.scrollHeight;
-        }
+function processCommand(cmd) {
+    if (cmd === 'clear') { termOut.innerHTML = ''; return; }
+    const promptHTML = `<div style="margin-top:12px;"><span style="color:var(--green);">┌──(jaki㉿kali)-[~]<br>└─$</span> <span style="color:#fff;">${escapeHtml(cmd)}</span></div>`;
+    let response;
+    if (commands[cmd]) {
+        response = commands[cmd]();
+    } else {
+        response = `<span style="color:#f87171;">bash:</span> ${escapeHtml(cmd)}: command not found. Type <span style="color:var(--green);">help</span> for available commands.`;
+    }
+    const node = document.createElement('div');
+    node.innerHTML = promptHTML + `<div style="color:var(--text-muted);margin-top:6px;padding-left:4px;">${response}</div>`;
+    termOut.appendChild(node);
+    termBody.scrollTop = termBody.scrollHeight;
+}
 
-        // --- Matrix Effect ---
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const letters = "01"; const fontSize = 14;
-        const columns = canvas.width / fontSize; const drops = Array(Math.floor(columns)).fill(1);
-
-        function draw() {
-            ctx.fillStyle = "rgba(5, 5, 5, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#00FF41"; ctx.font = fontSize + "px monospace";
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            }
-        }
-        setInterval(draw, 50);
-
-        // --- Typing Effect ---
-        const roles = ["AI & ML Researcher", "Certified Ethical Hacker", "Full-Stack Web Developer", "Cyber Security Specialist"];
-        let rIdx = 0, cIdx = 0, isDel = false; const target = document.getElementById('typing-text');
-        function typeEffect() {
-            const current = roles[rIdx];
-            target.innerHTML = (isDel ? current.substring(0, cIdx--) : current.substring(0, cIdx++)) + "<span class='animate-pulse text-[#00e0ff]'>_</span>";
-            if (!isDel && cIdx === current.length + 1) { isDel = true; setTimeout(typeEffect, 2000); }
-            else if (isDel && cIdx === 0) { isDel = false; rIdx = (rIdx + 1) % roles.length; setTimeout(typeEffect, 500); }
-            else { setTimeout(typeEffect, isDel ? 50 : 100); }
-        }
-        typeEffect();
-
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
-    </script>
+function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
 </body>
 </html>
